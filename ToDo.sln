@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OZProje.ToDo.Business", "OZ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OZProje.ToDo.Entities", "OZProje.ToDo.Entities\OZProje.ToDo.Entities.csproj", "{DC9CA5E4-3E82-49D3-8FF2-492F451500E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OZProje.ToDo.Web", "OZProje.ToDo.Web\OZProje.ToDo.Web.csproj", "{FCEDBD7F-FD85-4A08-A20A-2F7F4C63D91A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OZProje.ToDo.Web", "OZProje.ToDo.Web\OZProje.ToDo.Web.csproj", "{49882F78-3968-4714-AD82-183FD2F85CA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{DC9CA5E4-3E82-49D3-8FF2-492F451500E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC9CA5E4-3E82-49D3-8FF2-492F451500E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC9CA5E4-3E82-49D3-8FF2-492F451500E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCEDBD7F-FD85-4A08-A20A-2F7F4C63D91A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCEDBD7F-FD85-4A08-A20A-2F7F4C63D91A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCEDBD7F-FD85-4A08-A20A-2F7F4C63D91A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCEDBD7F-FD85-4A08-A20A-2F7F4C63D91A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49882F78-3968-4714-AD82-183FD2F85CA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49882F78-3968-4714-AD82-183FD2F85CA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49882F78-3968-4714-AD82-183FD2F85CA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49882F78-3968-4714-AD82-183FD2F85CA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
