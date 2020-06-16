@@ -11,8 +11,7 @@ namespace OZProje.ToDo.Entities.Concrete
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public int UserId { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
         public bool IsComplete { get; set; }
         public int PriorityId { get; set; }
         public Priority Priority{ get; set; }

@@ -1,0 +1,41 @@
+﻿@model List<TaskListViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (Model.Count != 0)
+{
+    <a asp-action="AddTask" class="btn btn-info btn-sm my-2">Yeni Bir Task Oluştur</a>
+    <table class="table table-sm table-hover">
+        <tr>
+            <th>Adı</th>
+            <th>Açıklama</th>
+            <th>Durum</th>
+            <th>Önem Sıra Id</th>
+            <th>Düzenle</th>
+            <th>Sil</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>@item.Name</td>
+        <td>@item.Description</td>
+        <td>@item.IsComplete</td>
+        <td>@item.PriorityId</td>
+        <td> <a asp-action="UpdateTask" asp-controller="Task" asp-route-id="@item.Id" class="btn btn-info btn-warning btn-sm">Düzenle</a></td>
+        <td> <a asp-action="DeleteTask" asp-controller="Task" asp-route-id="@item.Id" class="btn btn-info btn-warning btn-sm">Sil</a></td>
+    </tr>
+        }
+    </table>
+}
+else
+{
+    <div class="p-3 text-center mt-3">
+        <p class="lead">
+            Herhangi bir task bulunamadı.
+        </p>
+        <a asp-action="AddTask" class="btn btn-info btn-sm">Yeni Bir Task Oluştur</a>
+    </div>
+}
+
