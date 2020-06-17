@@ -30,6 +30,11 @@ namespace OZProje.ToDo.Business.Concrete
             return _taskDAL.GetById(id);
         }
 
+        public List<Task> GetIsNotCompleted()
+        {
+            return _taskDAL.GetIsNotCompleted();
+        }
+
         public void Save(Task table)
         {
             _taskDAL.Save(table);

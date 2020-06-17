@@ -7,5 +7,6 @@ namespace OZProje.ToDo.Business.Interfaces
 {
     public interface ITaskService: IGenericService<Task>
     {
+        List<Task> GetIsNotCompleted();
     }
 }
