@@ -14,19 +14,24 @@ namespace OZProje.ToDo.Web.Controllers
     {
         private readonly ITaskService _taskService;
         private readonly UserManager<AppUser> _userManager;
-        public HomeController(ITaskService taskService, UserManager<AppUser> userManager)
+        private readonly SignInManager<AppUser> _signInManager;
+        public HomeController(ITaskService taskService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _taskService = taskService;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+
         public IActionResult SignUp()
         {
             return View();
         }
+
         [HttpPost]
         public async System.Threading.Tasks.Task<IActionResult> SignUp(AppUserAddViewModel model)
         {
@@ -59,5 +64,32 @@ namespace OZProje.ToDo.Web.Controllers
             }
             return View();
         }
+
+        public async System.Threading.Tasks.Task<IActionResult> SignIn(AppUserSignInViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.UserName);
+                if (user != null)
+                {
+                    var result = await _signInManager.PasswordSignInAsync(model.UserName,model.Password,model.RememberMe,false);
+                    if (result.Succeeded)
+                    {
+                       var roles = await _userManager.GetRolesAsync(user);
+                        if (roles.Contains("Admin"))
+                        {
+                            return RedirectToAction("Index","Home", new { area="Admin" });
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home", new { area = "Member" });
+                        }
+                    }
+                }
+                ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı");
+            }
+            return View("Index", model);
+        }
+
     }
 }

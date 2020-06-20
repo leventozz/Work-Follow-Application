@@ -16,5 +16,8 @@ namespace OZProje.ToDo.Web.Models
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Parola boş bırakılamaz")]
         public string Password { get; set; }
+
+        [Display(Name ="Beni Hatırla")]
+        public bool RememberMe { get; set; }
     }
 }

@@ -22,10 +22,12 @@ namespace OZProje.ToDo.Web
             services.AddScoped<ITaskService, TaskManager>();
             services.AddScoped<IPriorityService, PriorityManager>();
             services.AddScoped<IReportService, ReportManager>();
+            services.AddScoped<IAppUserService, AppUserManager>();
 
             services.AddScoped<ITaskDAL, EfTaskRepository>();
             services.AddScoped<IReportDAL, EfReportRepository>();
             services.AddScoped<IPriorityDAL, EfPriorityRepository>();
+            services.AddScoped<IAppUserDAL, EfAppUserRepository>();
 
             services.AddDbContext<ToDoContext>();
             services.AddIdentity<AppUser, AppRole>(opt => { 
@@ -58,6 +60,8 @@ namespace OZProje.ToDo.Web
             }
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             IdentityInitializer.SeedData(userManager, roleManager).Wait();
             app.UseStaticFiles();
             app.UseEndpoints(endpoints =>

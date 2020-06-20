@@ -31,7 +31,7 @@
             <div class="list-group list-group-flush">
                 <a asp-action="Index" asp-controller="Task" class="list-group-item list-group-item-action @(active=="task"?"active":"")">Görev İşlemleri</a>
                 <a asp-action="Index" asp-controller="Priority" class="list-group-item list-group-item-action @(active=="priority"?"active":"")">Önem Sırası İşlemleri</a>
-                <a href="#" class="list-group-item list-group-item-action">Overview</a>
+                <a asp-action="Index" asp-controller="TaskOperation" class="list-group-item list-group-item-action @(active=="taskOperation"?"active":"")">Görev Atama İşlemleri</a>
                 <a href="#" class="list-group-item list-group-item-action">Events</a>
                 <a href="#" class="list-group-item list-group-item-action">Profile</a>
                 <a href="#" class="list-group-item list-group-item-action">Status</a>
