@@ -18,5 +18,10 @@ namespace OZProje.ToDo.Business.Concrete
         {
             return _appUserDAL.GetMembers();
         }
+
+        public List<AppUser> GetMembers(string searchKey, int activePage = 1)
+        {
+            return _appUserDAL.GetMembers(searchKey, activePage);
+        }
     }
 }

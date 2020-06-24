@@ -30,9 +30,19 @@ namespace OZProje.ToDo.Business.Concrete
             return _taskDAL.GetById(id);
         }
 
+        public Task GetByPriorityId(int id)
+        {
+            return _taskDAL.GetByPriorityId(id);
+        }
+
         public List<Task> GetIsNotCompleted()
         {
             return _taskDAL.GetIsNotCompleted();
+        }
+
+        public List<Task> GetWithAlias()
+        {
+            return _taskDAL.GetWithAlias();
         }
 
         public void Save(Task table)

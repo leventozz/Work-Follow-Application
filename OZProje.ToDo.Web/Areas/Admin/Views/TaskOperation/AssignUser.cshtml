@@ -1,0 +1,26 @@
+﻿@model TaskListViewModel
+@{
+    ViewData["Title"] = "AssignUser";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mt-2">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="text-center lead pt-1">Görev Bilgisi</h4>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <p class="card-text">@Model.Description</p>
+                <p class="card-text">
+                    <strong>Aciliyet Durumu</strong> <span class="badge badge-info">@Model.Priority.Definition</span>
+                </p>
+                <p class="card-text">
+                    <small>@Model.CreatedOn.ToString("D")</small>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -8,5 +8,7 @@ namespace OZProje.ToDo.DataAccess.Interfaces
     public interface ITaskDAL :IGenericDAL<Task>
     {
         List<Task> GetIsNotCompleted();
+        List<Task> GetWithAlias();
+        Task GetByPriorityId(int id);
     }
 }

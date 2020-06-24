@@ -5,8 +5,9 @@ using System.Text;
 
 namespace OZProje.ToDo.DataAccess.Interfaces
 {
-    public interface IAppUserDAL : IGenericDAL<AppUser>
+    public interface IAppUserDAL 
     {
         List<AppUser> GetMembers();
+        List<AppUser> GetMembers(string searchKey, int activePage = 1);
     }
 }
