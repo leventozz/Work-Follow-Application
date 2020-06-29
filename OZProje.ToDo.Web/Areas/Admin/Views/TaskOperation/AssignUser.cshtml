@@ -2,9 +2,26 @@
 @{
     ViewData["Title"] = "AssignUser";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    string s = (string)ViewBag.Search;
 }
 
 <div class="row mt-2">
+    <div class="col-md-12 mb-2">
+
+        @if (!string.IsNullOrWhiteSpace(s))
+        {
+            <div class="border border-dark p-3">
+                <strong> @s  </strong> araması için sonuçlar
+                <a asp-action="AssignUser" asp-route-id="@Model.Id" class="float-right">Arama sonuçlarını temizle</a>
+            </div>
+        }
+
+        <form method="get" asp-action="AssignUser" class="text-right">
+            <input type="text" name="searchKey" class="form-control-sm border-top-0 border-left-0 border-right-0 border-primary mb-3 mt-2" value="" />
+            <button type="submit" class="btn btn-primary btn-sm">Ara</button>
+        </form>
+    </div>
+
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
@@ -23,6 +40,7 @@
         </div>
     </div>
     <div class="col-md-8">
+
         @foreach (var item in (List<AppUserListViewModel>)ViewBag.Users)
         {
             <div class="card mb-3">
@@ -43,12 +61,25 @@
         <nav aria-label="Page navigation example">
 
             <ul class="pagination">
-                @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                @if (!string.IsNullOrWhiteSpace(s))
                 {
-                    <li class="page-item @(ViewBag.ActivePage == i ? "active" : "")">
-                        <a class="page-link" asp-action="AssignUser" asp-route-id="@Model.Id" asp-route-page="@i">@i</a>
-                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                    {
+                        <li class="page-item @(ViewBag.ActivePage == i ? "active" : "")">
+                            <a class="page-link" asp-action="AssignUser" asp-route-id="@Model.Id" asp-route-page="@i" asp-route-searchKey="@s">@i</a>
+                        </li>
+                    }
                 }
+                else
+                {
+                    @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                    {
+                        <li class="page-item @(ViewBag.ActivePage == i ? "active" : "")">
+                            <a class="page-link" asp-action="AssignUser" asp-route-id="@Model.Id" asp-route-page="@i">@i</a>
+                        </li>
+                    }
+                }
+
             </ul>
         </nav>
     </div>

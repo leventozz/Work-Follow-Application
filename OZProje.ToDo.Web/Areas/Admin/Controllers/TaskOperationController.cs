@@ -56,6 +56,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
             var users = _appUserService.GetMembers(out totalPage, searchKey, page);
 
             ViewBag.TotalPage = totalPage;
+            ViewBag.Search = searchKey;
             var taskModel = new TaskListViewModel();
 
             List<AppUserListViewModel> userModels = new List<AppUserListViewModel>();
