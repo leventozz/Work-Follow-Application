@@ -8,6 +8,6 @@ namespace OZProje.ToDo.DataAccess.Interfaces
     public interface IAppUserDAL 
     {
         List<AppUser> GetMembers();
-        List<AppUser> GetMembers(string searchKey, int activePage = 1);
+        List<AppUser> GetMembers(out int totalPage, string searchKey, int activePage = 1);
     }
 }

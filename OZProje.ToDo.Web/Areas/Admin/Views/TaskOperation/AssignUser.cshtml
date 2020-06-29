@@ -22,5 +22,35 @@
             </div>
         </div>
     </div>
+    <div class="col-md-8">
+        @foreach (var item in (List<AppUserListViewModel>)ViewBag.Users)
+        {
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="/wwwroot/img/@item.Picture" class="card-img" alt="@item.Name">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name @item.Surname</h5>
+                            <p class="card-text"> </p>
+                            <p class="card-text"><small class="text-muted">@item.Email</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <nav aria-label="Page navigation example">
+
+            <ul class="pagination">
+                @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                {
+                    <li class="page-item @(ViewBag.ActivePage == i ? "active" : "")">
+                        <a class="page-link" asp-action="AssignUser" asp-route-id="@Model.Id" asp-route-page="@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
 </div>
 

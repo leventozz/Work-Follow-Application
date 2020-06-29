@@ -7,7 +7,7 @@ namespace OZProje.ToDo.Business.Interfaces
 {
     public interface IAppUserService
     {
-        List<AppUser> GetMembers(string searchKey, int activePage = 1);
+        List<AppUser> GetMembers(out int totalPage, string searchKey, int activePage);
         List<AppUser> GetMembers();
     }
 }

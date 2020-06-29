@@ -50,8 +50,10 @@ namespace OZProje.ToDo.Web.Controllers
                 if (result.Succeeded)
                 {
                     var roleResult = await _userManager.AddToRoleAsync(appUser, "Member");
+
                     if (roleResult.Succeeded)
-                        return RedirectToAction("SignIn");
+                        return RedirectToAction("Index");
+
                     foreach (var item in roleResult.Errors)
                     {
                         ModelState.AddModelError("", item.Description);

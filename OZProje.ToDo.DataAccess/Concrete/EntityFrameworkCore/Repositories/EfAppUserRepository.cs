@@ -38,7 +38,7 @@ inner join AspNetRoles on AspNetUserRoles.RoleId=AspNetRoles.Id where AspNetRole
             }).ToList();
 
         }
-        public List<AppUser> GetMembers(string searchKey, int activePage=1)
+        public List<AppUser> GetMembers(out int totalPage, string searchKey, int activePage=1)
         {
             using var context = new ToDoContext();
 
@@ -61,12 +61,15 @@ inner join AspNetRoles on AspNetUserRoles.RoleId=AspNetRoles.Id where AspNetRole
                 UserName = x.user.UserName
             });
 
+            totalPage = (int)Math.Ceiling((double)result.Count() / 3);
+
             if (!string.IsNullOrWhiteSpace(searchKey))
             {
-                result.Where(x => x.Name.ToLower().Contains(searchKey.ToLower()) || x.Surname.ToLower().Contains(searchKey.ToLower()));
+                result = result.Where(x => x.Name.ToLower().Contains(searchKey.ToLower()) || x.Surname.ToLower().Contains(searchKey.ToLower()));
+                totalPage = (int)Math.Ceiling((double)result.Count() / 3);
             }
 
-            result.Skip((activePage - 1) * 3).Take(3);
+            result = result.Skip((activePage - 1) * 3).Take(3);
 
             return result.ToList();
         }
