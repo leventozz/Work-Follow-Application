@@ -1,91 +1,59 @@
-﻿@model TaskListViewModel
+﻿@model UserAssignListViewModel
+
 @{
     ViewData["Title"] = "AssignUser";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
-    string s = (string)ViewBag.Search;
 }
 
-<div class="row mt-2">
-    <div class="col-md-12 mb-2">
-
-        @if (!string.IsNullOrWhiteSpace(s))
-        {
-            <div class="border border-dark p-3">
-                <strong> @s  </strong> araması için sonuçlar
-                <a asp-action="AssignUser" asp-route-id="@Model.Id" class="float-right">Arama sonuçlarını temizle</a>
-            </div>
-        }
-
-        <form method="get" asp-action="AssignUser" class="text-right">
-            <input type="text" name="searchKey" class="form-control-sm border-top-0 border-left-0 border-right-0 border-primary mb-3 mt-2" value="" />
-            <button type="submit" class="btn btn-primary btn-sm">Ara</button>
-        </form>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="text-center lead pt-1">Görev Bilgisi</h4>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">@Model.Name</h5>
-                <p class="card-text">@Model.Description</p>
-                <p class="card-text">
-                    <strong>Aciliyet Durumu</strong> <span class="badge badge-info">@Model.Priority.Definition</span>
-                </p>
-                <p class="card-text">
-                    <small>@Model.CreatedOn.ToString("D")</small>
-                </p>
+    <div class="row">
+        <div class="col-md-4 mt-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center lead pt-1">Görev Bilgisi</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Task.Name</h5>
+                    <p class="card-text">@Model.Task.Description</p>
+                    <p class="card-text">
+                        <strong>Aciliyet Durumu</strong> <span class="badge badge-info">@Model.Task.Priority.Definition</span>
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-8">
-
-        @foreach (var item in (List<AppUserListViewModel>)ViewBag.Users)
-        {
+        <div class="col-md-8 mt-3">
+            <div class="card-header">
+                <h5 class="text-center">Personel Bilgileri</h5>
+            </div>
             <div class="card border border-primary mb-3 p-2">
+                
                 <div class="row no-gutters">
                     <div class="col-md-4">
-                        <img src="~/img/@item.Picture" class="card-img img-thumbnail shadow" style="height:11rem!important;" alt="@item.Name">
+                        <img src="~/img/@Model.AppUser.Picture" class="card-img img-thumbnail shadow" style="height:11rem!important;" alt="@Model.AppUser.Name">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">@item.Name @item.Surname</h5>
-                            <p class="card-text"> 
-                                <getTasksByAppUserId app-user-id="@item.Id"></getTasksByAppUserId>
+                            <h5 class="card-title">@Model.AppUser.Name @Model.AppUser.Surname</h5>
+                            <p class="card-text">
+                                <getTasksByAppUserId app-user-id="@Model.AppUser.Id"></getTasksByAppUserId>
                             </p>
-                            <p class="card-text"><small class="text-muted">@item.Email</small>
-                            <a href="" class="btn btn-primary btn-sm float-right">Görevlendir</a>
+                            <p class="card-text">
+                                <small class="text-muted">@Model.AppUser.Email</small>
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-        }
-        <nav aria-label="Page navigation example">
-
-            <ul class="pagination">
-                @if (!string.IsNullOrWhiteSpace(s))
-                {
-                    @for (int i = 1; i <= ViewBag.TotalPage; i++)
-                    {
-                        <li class="page-item @(ViewBag.ActivePage == i ? "active" : "")">
-                            <a class="page-link" asp-action="AssignUser" asp-route-id="@Model.Id" asp-route-page="@i" asp-route-searchKey="@s">@i</a>
-                        </li>
-                    }
-                }
-                else
-                {
-                    @for (int i = 1; i <= ViewBag.TotalPage; i++)
-                    {
-                        <li class="page-item @(ViewBag.ActivePage == i ? "active" : "")">
-                            <a class="page-link" asp-action="AssignUser" asp-route-id="@Model.Id" asp-route-page="@i">@i</a>
-                        </li>
-                    }
-                }
-
-            </ul>
-        </nav>
+        </div>
+        <div class=" col-md-12">
+            <form>
+                <p class="lead text-center">
+                    Yukarıdaki göreve ilgili personel atanacaktır. Bu işlemi gerçekleştirmek istediğinizden emin misiniz?
+                </p>
+                <div class="form-group text-center">
+                    <a href="" class="btn btn-warning btn-sm">Hayır</a>
+                    <button class="btn btn-primary btn-sm">Evet</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 

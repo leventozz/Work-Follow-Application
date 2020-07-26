@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.Entities.Concrete;
@@ -17,10 +18,13 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
     {
         private readonly IAppUserService _appUserService;
         private readonly ITaskService _taskService;
-        public TaskOperationController(IAppUserService appUserService, ITaskService taskService)
+        private readonly UserManager<AppUser> _userManager;
+
+        public TaskOperationController(IAppUserService appUserService, ITaskService taskService, UserManager<AppUser> userManager)
         {
             _appUserService = appUserService;
             _taskService = taskService;
+            _userManager = userManager;
         }
         
         public IActionResult Index()
@@ -45,7 +49,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
             return View(models);
         }
 
-        public IActionResult AssignUser(int id, string searchKey, int page=1)
+        public IActionResult AssignUserList(int id, string searchKey, int page=1)
         {
             TempData["Active"] = "taskOperation";
             ViewBag.ActivePage = page;
@@ -80,6 +84,31 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
             taskModel.Name = task.Name;
             taskModel.Priority = task.Priority;
             return View(taskModel);
+        }
+
+        public IActionResult AssignUser(UserAssignViewModel model)
+        {
+            var user =_userManager.Users.FirstOrDefault(x => x.Id == model.AppUserId);
+            var task = _taskService.GetByPriorityId(model.TaskId);
+
+            AppUserListViewModel userModel = new AppUserListViewModel();
+            userModel.Id = user.Id;
+            userModel.Name = user.Name;
+            userModel.Picture = user.Picture;
+            userModel.Surname = user.Surname;
+            userModel.Email = user.Email;
+
+            TaskListViewModel taskModel = new TaskListViewModel();
+            taskModel.Id = task.Id;
+            taskModel.Description = task.Description;
+            taskModel.Name = task.Name;
+            taskModel.Priority = task.Priority;
+
+            UserAssignListViewModel userAssignModel = new UserAssignListViewModel();
+            userAssignModel.AppUser = userModel;
+            userAssignModel.Task = taskModel;
+
+            return View(userAssignModel);
         }
     }
 }
