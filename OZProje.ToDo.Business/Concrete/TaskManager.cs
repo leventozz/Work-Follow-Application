@@ -25,6 +25,11 @@ namespace OZProje.ToDo.Business.Concrete
             return _taskDAL.GetAll();
         }
 
+        public List<Task> GetByAppUserId(int appUserId)
+        {
+            return _taskDAL.GetByAppUserId(appUserId);
+        }
+
         public Task GetById(int id)
         {
             return _taskDAL.GetById(id);

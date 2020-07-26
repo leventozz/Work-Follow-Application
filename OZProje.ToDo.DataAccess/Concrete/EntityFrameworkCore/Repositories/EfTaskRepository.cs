@@ -9,6 +9,12 @@ namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
 {
     public class EfTaskRepository : EfGenericRepository<Task>, ITaskDAL
     {
+        public List<Task> GetByAppUserId(int appUserId)
+        {
+            using var context = new ToDoContext();
+            return context.Tasks.Where(x => x.AppUserId == appUserId).ToList();
+        }
+
         public Task GetByPriorityId(int id)
         {
             using var context = new ToDoContext();

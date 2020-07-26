@@ -10,5 +10,6 @@ namespace OZProje.ToDo.Business.Interfaces
         List<Task> GetIsNotCompleted();
         List<Task> GetWithAlias();
         Task GetByPriorityId(int id);
+        List<Task> GetByAppUserId(int appUserId);
     }
 }
