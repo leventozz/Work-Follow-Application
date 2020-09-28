@@ -45,6 +45,11 @@ namespace OZProje.ToDo.Business.Concrete
             return _taskDAL.GetIsNotCompleted();
         }
 
+        public Task GetReportsById(int id)
+        {
+            return _taskDAL.GetReportsById(id);
+        }
+
         public List<Task> GetWithAlias()
         {
             return _taskDAL.GetWithAlias();

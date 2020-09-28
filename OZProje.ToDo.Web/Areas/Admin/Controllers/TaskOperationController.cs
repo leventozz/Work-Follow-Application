@@ -88,6 +88,8 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult AssignUser(UserAssignViewModel model)
         {
+            TempData["Active"] = "taskOperation";
+
             var user =_userManager.Users.FirstOrDefault(x => x.Id == model.AppUserId);
             var task = _taskService.GetByPriorityId(model.TaskId);
 
@@ -109,6 +111,29 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
             userAssignModel.Task = taskModel;
 
             return View(userAssignModel);
+        }
+
+        [HttpPost]
+        public IActionResult AssignUserList(UserAssignViewModel model)
+        {
+            var task = _taskService.GetById(model.TaskId);
+            task.AppUserId = model.AppUserId;
+            _taskService.Update(task);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult ViewDetail(int id)
+        {
+            TempData["Active"] = "taskOperation";
+
+            var task = _taskService.GetReportsById(id);
+            TaskListAllViewModel model = new TaskListAllViewModel();
+            model.Id = task.Id;
+            model.Reports = task.Reports;
+            model.Name = task.Name;
+            model.Description = task.Description;
+            model.AppUser = task.AppUser;
+            return View(model);
         }
     }
 }

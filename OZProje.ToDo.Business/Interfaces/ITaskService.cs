@@ -11,5 +11,6 @@ namespace OZProje.ToDo.Business.Interfaces
         List<Task> GetWithAlias();
         Task GetByPriorityId(int id);
         List<Task> GetByAppUserId(int appUserId);
+        Task GetReportsById(int id);
     }
 }

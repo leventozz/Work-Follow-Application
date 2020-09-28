@@ -32,5 +32,11 @@ namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
             using var context = new ToDoContext();
             return context.Tasks.Include(x => x.Priority).Include(x => x.Reports).Include(x => x.AppUser).Where(x => !x.IsComplete).OrderByDescending(x => x.CreatedOn).ToList();
         }
+
+        public Task GetReportsById(int id)
+        {
+            using var context = new ToDoContext();
+            return context.Tasks.Include(x => x.Reports).Include(x=>x.AppUser).Where(x => x.Id == id).FirstOrDefault();
+        }
     }
 }

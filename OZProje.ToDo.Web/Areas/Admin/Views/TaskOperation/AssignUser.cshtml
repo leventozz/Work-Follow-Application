@@ -45,13 +45,15 @@
             </div>
         </div>
         <div class=" col-md-12">
-            <form>
+            <form asp-action="AssignUserList" method="post">
                 <p class="lead text-center">
                     Yukarıdaki göreve ilgili personel atanacaktır. Bu işlemi gerçekleştirmek istediğinizden emin misiniz?
                 </p>
                 <div class="form-group text-center">
-                    <a href="" class="btn btn-warning btn-sm">Hayır</a>
-                    <button class="btn btn-primary btn-sm">Evet</button>
+                    <a asp-action="AssignUserList" asp-route-id="@Model.Task.Id" class="btn btn-warning btn-sm">Hayır</a>
+                    <input type="hidden" name="AppUserId" value="@Model.AppUser.Id" />
+                    <input type="hidden" name="TaskId" value="@Model.Task.Id" />
+                    <button type="submit" class="btn btn-primary btn-sm">Evet</button>
                 </div>
             </form>
         </div>
