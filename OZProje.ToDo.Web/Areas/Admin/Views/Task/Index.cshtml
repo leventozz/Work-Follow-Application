@@ -7,10 +7,9 @@
 @if (Model.Count != 0)
 {
     <a asp-action="AddTask" class="btn btn-outline-info btn-sm my-2">Yeni Bir Task Oluştur</a>
-    <table class="table table-sm table-hover">
+    <table class="table table-sm table-hover table-bordered">
         <tr>
             <th>Adı</th>
-            <th>Açıklama</th>
             <th>Oluşturulma Tarihi</th>
             <th>Önem Sırası</th>
             <th>Düzenle</th>
@@ -20,7 +19,6 @@
         {
             <tr>
                 <td>@item.Name</td>
-                <td>@item.Description</td>
                 <td>@item.CreatedOn.ToString("D")</td>
                 <td>@item.Priority.Definition</td>
                 <td> <a asp-action="UpdateTask" asp-controller="Task" asp-route-id="@item.Id" class="btn btn-info btn-warning btn-sm"><i class="fas fa-pen-square"></i></a></td>

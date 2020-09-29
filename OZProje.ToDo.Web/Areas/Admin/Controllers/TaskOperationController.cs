@@ -19,12 +19,14 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
         private readonly IAppUserService _appUserService;
         private readonly ITaskService _taskService;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IFileService _fileService;
 
-        public TaskOperationController(IAppUserService appUserService, ITaskService taskService, UserManager<AppUser> userManager)
+        public TaskOperationController(IAppUserService appUserService, ITaskService taskService, UserManager<AppUser> userManager, IFileService fileService)
         {
             _appUserService = appUserService;
             _taskService = taskService;
             _userManager = userManager;
+            _fileService = fileService;
         }
         
         public IActionResult Index()
@@ -134,6 +136,17 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
             model.Description = task.Description;
             model.AppUser = task.AppUser;
             return View(model);
+        }
+
+        public IActionResult ExcelExport(int id)
+        {
+            return File((_fileService.ExcelExport(_taskService.GetReportsById(id).Reports)), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",Guid.NewGuid()+".xlsx");
+        }
+
+        public IActionResult PDFExport(int id)
+        {
+            var path = _fileService.PdfExport(_taskService.GetReportsById(id).Reports);
+            return File(path, "applicaiton/pdf", Guid.NewGuid() + ".pdf");
         }
     }
 }

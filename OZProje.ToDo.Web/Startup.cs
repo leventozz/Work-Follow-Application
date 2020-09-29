@@ -23,6 +23,7 @@ namespace OZProje.ToDo.Web
             services.AddScoped<IPriorityService, PriorityManager>();
             services.AddScoped<IReportService, ReportManager>();
             services.AddScoped<IAppUserService, AppUserManager>();
+            services.AddScoped<IFileService, FileManager>();
 
             services.AddScoped<ITaskDAL, EfTaskRepository>();
             services.AddScoped<IReportDAL, EfReportRepository>();

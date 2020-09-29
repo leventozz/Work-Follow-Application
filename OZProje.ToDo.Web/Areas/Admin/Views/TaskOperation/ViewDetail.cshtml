@@ -6,7 +6,8 @@
 
 @if (Model.Reports.Count > 0)
 {
-    <a class="btn btn-info mt-2">Excel'de Görüntüle</a>
+    <a asp-action="ExcelExport" asp-route-id="@Model.Id" target="_blank" class="btn btn-info mt-2">Excel Export</a> 
+    <a asp-action="PDFExport" asp-route-id="@Model.Id" target="_blank"class="btn btn-info mt-2">PDF Export</a>
     <table class="table table-hover table-sm mt-2 text-center table-bordered mt-1">
         <tr>
             <th colspan="2">@Model.AppUser.Name @Model.AppUser.Surname personelinin @Model.Name taskına yazmış olduğu raporlar</th>

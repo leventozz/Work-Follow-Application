@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Member\Models\" />
+    <Folder Include="wwwroot\documents\" />
   </ItemGroup>
 
   <ItemGroup>
