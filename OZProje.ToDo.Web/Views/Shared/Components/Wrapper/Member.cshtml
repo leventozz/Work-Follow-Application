@@ -1,0 +1,16 @@
+﻿@model AppUserListViewModel
+
+@{ string active = TempData["Active"]?.ToString(); }
+
+<div class="border border-right" id="sidebar-wrapper">
+    <div class="sidebar-heading">
+        <img src="~/img/@Model.Picture" alt="@Model.Name" class="w-100 img-thumbnail" style="height:10rem!important; width:10rem!important;" />
+    </div>
+    <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-list mr-1"></i>Task Listesi</a>
+        <a href="#" class="list-group-item list-group-item-action"><i class="far fa-check-circle mr-1"></i>Tamamlanan Tasklar</a>
+        <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-chart-pie mr-1"></i>Bildirimler</a>
+        <a asp-action="Index" asp-controller="Profile" class="list-group-item list-group-item-action @(active=="profile"?"active":"")"><i class="fas fa-user mr-1"></i>Profilim</a>
+        <a asp-area="" asp-action="SignOut" asp-controller="Home" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt mr-1"></i>Çıkış Yap</a>
+    </div>
+</div>

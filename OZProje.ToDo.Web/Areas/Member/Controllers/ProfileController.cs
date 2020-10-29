@@ -10,10 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.Areas.Admin.Models;
 
-namespace OZProje.ToDo.Web.Areas.Admin.Controllers
+namespace OZProje.ToDo.Web.Areas.Member.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Area("Member")]
+    [Authorize(Roles = "Member")]
     public class ProfileController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
