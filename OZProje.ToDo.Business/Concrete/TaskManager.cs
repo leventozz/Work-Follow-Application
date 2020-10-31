@@ -4,6 +4,7 @@ using OZProje.ToDo.DataAccess.Interfaces;
 using OZProje.ToDo.Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace OZProje.ToDo.Business.Concrete
@@ -53,6 +54,11 @@ namespace OZProje.ToDo.Business.Concrete
         public List<Task> GetWithAlias()
         {
             return _taskDAL.GetWithAlias();
+        }
+
+        public List<Task> GetWithAlias(Expression<Func<Task, bool>> filter)
+        {
+            return _taskDAL.GetWithAlias(filter);
         }
 
         public void Save(Task table)

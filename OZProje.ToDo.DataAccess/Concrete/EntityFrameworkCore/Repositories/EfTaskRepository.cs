@@ -2,8 +2,10 @@
 using OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Contexts;
 using OZProje.ToDo.DataAccess.Interfaces;
 using OZProje.ToDo.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
 {
@@ -37,6 +39,12 @@ namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
         {
             using var context = new ToDoContext();
             return context.Tasks.Include(x => x.Reports).Include(x=>x.AppUser).Where(x => x.Id == id).FirstOrDefault();
+        }
+
+        public List<Task> GetWithAlias(Expression<Func<Task, bool>> filter)
+        {
+            using var context = new ToDoContext();
+            return context.Tasks.Include(x => x.Priority).Include(x => x.Reports).Include(x => x.AppUser).Where(filter).OrderByDescending(x => x.CreatedOn).ToList();
         }
     }
 }
