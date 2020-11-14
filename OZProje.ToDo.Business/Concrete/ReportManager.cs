@@ -30,6 +30,11 @@ namespace OZProje.ToDo.Business.Concrete
             return _reportDAL.GetById(id);
         }
 
+        public Report GetWithAllies(int id)
+        {
+            return _reportDAL.GetWithAllies(id);
+        }
+
         public void Save(Report table)
         {
             _reportDAL.Save(table);

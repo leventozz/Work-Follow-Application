@@ -3,10 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OZProje.ToDo.Web.Areas.Admin.Models
 {
-    public class ReportAddViewModel
+    public class ReportUpdateViewModel
     {
+        public int Id { get; set; }
         [Display(Name = "Başlık: ")]
-        [Required(ErrorMessage ="Başlık alanı boş geçilemez")]
+        [Required(ErrorMessage = "Başlık alanı boş geçilemez")]
         public string Title { get; set; }
         [Display(Name = "Detay: ")]
         [Required(ErrorMessage = "Detay alanı boş geçilemez")]

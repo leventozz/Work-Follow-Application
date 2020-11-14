@@ -29,7 +29,7 @@ namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
             return context.Tasks.Include(x => x.Priority).Where(x => !x.IsComplete).OrderByDescending(x => x.CreatedOn).ToList();
         }
 
-        public List<Task> GetWithAlias()
+        public List<Task> GetWithAllies()
         {
             using var context = new ToDoContext();
             return context.Tasks.Include(x => x.Priority).Include(x => x.Reports).Include(x => x.AppUser).Where(x => !x.IsComplete).OrderByDescending(x => x.CreatedOn).ToList();
@@ -41,7 +41,7 @@ namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
             return context.Tasks.Include(x => x.Reports).Include(x=>x.AppUser).Where(x => x.Id == id).FirstOrDefault();
         }
 
-        public List<Task> GetWithAlias(Expression<Func<Task, bool>> filter)
+        public List<Task> GetWithAllies(Expression<Func<Task, bool>> filter)
         {
             using var context = new ToDoContext();
             return context.Tasks.Include(x => x.Priority).Include(x => x.Reports).Include(x => x.AppUser).Where(filter).OrderByDescending(x => x.CreatedOn).ToList();

@@ -9,8 +9,8 @@ namespace OZProje.ToDo.DataAccess.Interfaces
     public interface ITaskDAL :IGenericDAL<Task>
     {
         List<Task> GetIsNotCompleted();
-        List<Task> GetWithAlias();
-        List<Task> GetWithAlias(Expression<Func<Task, bool>> filter);
+        List<Task> GetWithAllies();
+        List<Task> GetWithAllies(Expression<Func<Task, bool>> filter);
         Task GetByPriorityId(int id);
         List<Task> GetByAppUserId(int appUserId);
         Task GetReportsById(int id);

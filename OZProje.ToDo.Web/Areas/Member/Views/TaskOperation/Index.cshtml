@@ -5,52 +5,105 @@
     int index = 0;
 }
 
-@foreach (var task in Model)
+@if (Model.Count > 0)
 {
-    index++;
-    <div class="card my-1">
-        <h5 class="card-header">@task.Name</h5>
-        <div class="card-body">
-            <h5 class="card-title"><span class="text-danger">Aciliyet Durumu: </span>@task.Priority.Definition</h5>
-            <p class="card-text">@task.Description</p>
+    @foreach (var task in Model)
+    {
+        index++;
+        <div class="card my-1">
+            <h5 class="card-header">@task.Name</h5>
+            <div class="card-body">
+                <h5 class="card-title"><span class="text-danger">Aciliyet Durumu: </span>@task.Priority.Definition</h5>
+                <p class="card-text">@task.Description</p>
 
-            <p class="text-right">
-                @if (task.Reports.Count > 0)
-                {
-                    <a class="btn btn-light btn-sm" data-toggle="collapse" href="#collapseExample-@index" role="button" aria-expanded="false" aria-controls="collapseExample">
-                        Raporlara Git <i class="fas fa-angle-down ml-2 mr-1"></i>
-                        <span class="badge badge-dark">@task.Reports.Count</span>
-                    </a>
-                }
-                else
-                {
-                    <a asp-action="AddReport" asp-route-id="@task.Id" class="btn btn-light btn-sm">Rapor Yaz <i class="fas fa-pencil-alt ml-1"></i></a>
-                }
-
-                <a href="#" class="btn btn-dark btn-sm">
-                    Tamamlandı Olarak İşaretle
-                </a>
-            </p>
-            <div class="collapse" id="collapseExample-@index">
-                <a asp-action="AddReport" asp-route-id="@task.Id" class="btn btn-light btn-sm mb-1">Rapor Yaz <i class="fas fa-pencil-alt ml-1"></i></a>
-                <table class="table table-hover table-bordered table-sm">
-                    <tr>
-                        <th>Ad</th>
-                        <th>Açıklama</th>
-                        <th>İşlem</th>
-                    </tr>
-                    @foreach (var report in task.Reports)
+                <p class="text-right">
+                    @if (task.Reports.Count > 0)
                     {
-                        <tr>
-                            <td>@report.Title</td>
-                            <td>@report.Description</td>
-                            <td><a asp-action="UpdateReport" asp-route-id="@report.Id" class="btn btn-warning btn-sm">Düzenle</a></td>
-                        </tr>
+                        <a class="btn btn-light btn-sm" data-toggle="collapse" href="#collapseExample-@index" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Raporlara Git <i class="fas fa-angle-down ml-2 mr-1"></i>
+                            <span class="badge badge-dark">@task.Reports.Count</span>
+                        </a>
                     }
-                </table>
+                    else
+                    {
+                        <a asp-action="AddReport" asp-route-id="@task.Id" class="btn btn-light btn-sm">Rapor Yaz <i class="fas fa-pencil-alt ml-1"></i></a>
+                    }
+
+                    <a href="#" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#exampleModal" data-id="@task.Id">
+                        Tamamlandı Olarak İşaretle
+                    </a>
+                </p>
+                <div class="collapse" id="collapseExample-@index">
+                    <a asp-action="AddReport" asp-route-id="@task.Id" class="btn btn-light btn-sm mb-1">Rapor Yaz <i class="fas fa-pencil-alt ml-1"></i></a>
+                    <table class="table table-hover table-bordered table-sm">
+                        <tr>
+                            <th>Ad</th>
+                            <th>Açıklama</th>
+                            <th>İşlem</th>
+                        </tr>
+                        @foreach (var report in task.Reports)
+                        {
+                            <tr>
+                                <td>@report.Title</td>
+                                <td>@report.Description</td>
+                                <td><a asp-action="UpdateReport" asp-route-id="@report.Id" class="btn btn-warning btn-sm">Düzenle</a></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h5 class="text-center mt-5">Şu anda size atanmış bir görev bulunmamaktadır.</h5>
+}
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Uyarı</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center lead">
+                Bu işlemi gerçekleştirmek istediğinizden emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+                <button id="btnSave" type="button" class="btn btn-primary">Evet</button>
             </div>
         </div>
     </div>
+</div>
+
+@section JavaScript
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#exampleModal").on("show.bs.modal", function (event) {
+                let triggeredElement = $(event.relatedTarget);
+                let data = triggeredElement.data("id");
+                $("#btnSave").click(function () {
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json; charset=utf-8",
+                        url: "./TaskOperation/MarkAsCompleted",
+                        data: { taskId: data },
+                        success: function () {
+                            window.location.reload();
+                        },
+                        error: function (error) {
+                            alert(error.responseText);
+                        }
+                    })
+                });
+            });
+        });
+    </script>
 }
 
 

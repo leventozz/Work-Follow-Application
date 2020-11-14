@@ -53,12 +53,12 @@ namespace OZProje.ToDo.Business.Concrete
 
         public List<Task> GetWithAlias()
         {
-            return _taskDAL.GetWithAlias();
+            return _taskDAL.GetWithAllies();
         }
 
         public List<Task> GetWithAlias(Expression<Func<Task, bool>> filter)
         {
-            return _taskDAL.GetWithAlias(filter);
+            return _taskDAL.GetWithAllies(filter);
         }
 
         public void Save(Task table)

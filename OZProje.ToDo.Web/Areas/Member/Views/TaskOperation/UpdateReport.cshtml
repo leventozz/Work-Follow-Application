@@ -1,16 +1,16 @@
-﻿@model ReportAddViewModel
+﻿@model ReportUpdateViewModel
 @{
-    ViewData["Title"] = "AddReport";
+    ViewData["Title"] = "UpdateReport";
     Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
 }
 
-<form method="post" asp-action="AddReport" class="w-75 mx-auto p-3">
+<form method="post" asp-action="UpdateReport" class="w-75 mx-auto p-3">
     <div class="card border-warning mb-3">
         <div class="lead">
             <div class="card-header">
                 <h4 class="card-title text-center">@Model.Task.Name</h4>
             </div>
-            
+
             <div class="card-body">
                 <p class="card-text">
                     <span class="text-danger">Detayı: </span>@Model.Task.Description
@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    <input type="hidden" asp-for="TaskId" />
+    <input type="hidden" asp-for="@Model.Id" />
     <div class="form-group">
         <label asp-for="@Model.Title"></label>
         <span asp-validation-for="@Model.Title" class="text-danger"></span>
@@ -45,3 +45,4 @@
     <script src="~/lib/jqueryValidate/jquery.validate.min.js"></script>
     <script src="~/lib/jqueryUnob/jquery.validate.unobtrusive.min.js"></script>
 }
+
