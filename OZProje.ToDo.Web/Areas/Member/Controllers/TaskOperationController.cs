@@ -18,11 +18,13 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
         private readonly IReportService _reportService;
         private readonly UserManager<AppUser> _userManager;
         private readonly ITaskService _taskService;
-        public TaskOperationController(ITaskService taskService, UserManager<AppUser> userManager, IReportService reportService)
+        private readonly INotificationService _notificationService;
+        public TaskOperationController(ITaskService taskService, UserManager<AppUser> userManager, IReportService reportService, INotificationService notificationService)
         {
             _reportService = reportService;
             _taskService = taskService;
             _userManager = userManager;
+            _notificationService = notificationService;
         }
         public async Task<IActionResult> Index()
         {
@@ -61,7 +63,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddReport(ReportAddViewModel model)
+        public async Task<IActionResult> AddReport(ReportAddViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -71,6 +73,19 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
                     Description = model.Description,
                     Title = model.Title
                 });
+
+                var adminList = await _userManager.GetUsersInRoleAsync("Admin");
+                var activeUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                foreach (var admin in adminList)
+                {
+                    _notificationService.Save(new Notification
+                    {
+                        Description = string.Format("{0} {1} yeni bir rapor ekledi.", activeUser.Name, activeUser.Surname),
+                        AppUserId = admin.Id
+                    });
+                }
+
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -103,11 +118,24 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
             return View(model);
         }
 
-        public IActionResult MarkAsCompleted(int taskId)
+        public async Task<IActionResult> MarkAsCompleted(int taskId)
         {
             var currentTask = _taskService.GetById(taskId);
             currentTask.IsComplete = true;
             _taskService.Update(currentTask);
+
+            var adminList = await _userManager.GetUsersInRoleAsync("Admin");
+            var activeUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            foreach (var admin in adminList)
+            {
+                _notificationService.Save(new Notification
+                {
+                    Description = string.Format("{0} {1} bir görevi tamamladı.", activeUser.Name, activeUser.Surname),
+                    AppUserId = admin.Id
+                });
+            }
+
             return Json(null);
         }
     }
