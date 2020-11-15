@@ -55,5 +55,17 @@ namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
             totalIndex = (int)Math.Ceiling((double)values.Count() / 3);
             return values.Skip((activeIndex - 1) * 3).Take(3).ToList();
         }
+
+        public int GetCompletedTaskCount(int userId)
+        {
+            using var context = new ToDoContext();
+            return context.Tasks.Where(x => x.AppUserId == userId && x.IsComplete).Count();
+        }
+
+        public int GetNotCompletedTaskCount(int userId)
+        {
+            using var context = new ToDoContext();
+            return context.Tasks.Where(x => x.AppUserId == userId && !x.IsComplete).Count();
+        }
     }
 }

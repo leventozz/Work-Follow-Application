@@ -7,5 +7,6 @@ namespace OZProje.ToDo.DataAccess.Interfaces
 {
     public interface INotificationDAL: IGenericDAL<Notification>
     {
+        List<Notification> GetUnread(int appUserId);
     }
 }

@@ -8,5 +8,6 @@ namespace OZProje.ToDo.Business.Interfaces
     public interface IReportService : IGenericService<Report>
     {
         Report GetWithAllies(int id);
+        int GetReportsCount(int userId);
     }
 }

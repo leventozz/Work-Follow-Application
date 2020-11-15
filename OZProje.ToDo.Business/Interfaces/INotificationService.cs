@@ -7,5 +7,6 @@ namespace OZProje.ToDo.Business.Interfaces
 {
     public interface INotificationService : IGenericService<Notification>
     {
+        List<Notification> GetUnread(int appUserId);
     }
 }

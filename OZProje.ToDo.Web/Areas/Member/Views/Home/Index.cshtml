@@ -4,5 +4,50 @@
     Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
 }
 
-<h1>Index</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-white text-center bg-primary my-3">
+                <div class="card-body">
+                    <h4 class="card-title">Tamamladığınız Task Sayısı</h4>
+                    <p class="card-text display-4">@ViewBag.CompletedTaskCount</p>
+                    <p>
+                        <a asp-action="Index" asp-controller="CompletedTasks" class="btn btn-light btn-sm">Tamamlanan Görevleri Listele</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white text-center bg-primary my-3">
+                <div class="card-body">
+                    <h4 class="card-title">Bekleyen İşleriniz</h4>
+                    <p class="card-text display-4">@ViewBag.NotCompletedTaskCount</p>
+                    <p>
+                        <a asp-action="Index" asp-controller="TaskOperation" class="btn btn-light btn-sm">Taskları Görüntüle</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white text-center bg-primary my-3">
+                <div class="card-body">
+                    <h4 class="card-title">Bildirimleriniz</h4>
+                    <p class="card-text display-4">@ViewBag.UnreadNotificationCount</p>
+                    <p>
+                        <a asp-action="Index" asp-controller="Notification" class="btn btn-light btn-sm">Bildirimleri Görüntüle</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white text-center bg-primary my-3">
+                <div class="card-body">
+                    <h4 class="card-title">Oluşturduğunuz Rapor Sayısı</h4>
+                    <p class="card-text display-4">@ViewBag.ReportCount</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
 

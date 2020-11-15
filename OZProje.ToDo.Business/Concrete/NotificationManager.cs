@@ -29,6 +29,11 @@ namespace OZProje.ToDo.Business.Concrete
             return _notificationDAL.GetById(id);
         }
 
+        public List<Notification> GetUnread(int appUserId)
+        {
+            return _notificationDAL.GetUnread(appUserId);
+        }
+
         public void Save(Notification table)
         {
             _notificationDAL.Save(table);

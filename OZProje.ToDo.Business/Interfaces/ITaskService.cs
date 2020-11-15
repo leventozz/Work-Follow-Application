@@ -15,5 +15,7 @@ namespace OZProje.ToDo.Business.Interfaces
         Task GetReportsById(int id);
         List<Task> GetWithAllies(Expression<Func<Task, bool>> filter);
         List<Task> GetCompletedWithAllies(out int totalIndex, int userId, int activeIndex=1);
+        int GetCompletedTaskCount(int userId);
+        int GetNotCompletedTaskCount(int userId);
     }
 }

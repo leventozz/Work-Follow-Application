@@ -41,6 +41,11 @@ namespace OZProje.ToDo.Business.Concrete
             return _taskDAL.GetByPriorityId(id);
         }
 
+        public int GetCompletedTaskCount(int userId)
+        {
+            return _taskDAL.GetCompletedTaskCount(userId);
+        }
+
         public List<Task> GetCompletedWithAllies(out int totalIndex, int userId, int activeIndex)
         {
             return _taskDAL.GetCompletedWithAllies(out totalIndex, userId, activeIndex);
@@ -49,6 +54,11 @@ namespace OZProje.ToDo.Business.Concrete
         public List<Task> GetIsNotCompleted()
         {
             return _taskDAL.GetIsNotCompleted();
+        }
+
+        public int GetNotCompletedTaskCount(int userId)
+        {
+            return _taskDAL.GetNotCompletedTaskCount(userId);
         }
 
         public Task GetReportsById(int id)

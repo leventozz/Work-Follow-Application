@@ -30,6 +30,11 @@ namespace OZProje.ToDo.Business.Concrete
             return _reportDAL.GetById(id);
         }
 
+        public int GetReportsCount(int userId)
+        {
+            return _reportDAL.GetReportsCount(userId);
+        }
+
         public Report GetWithAllies(int id)
         {
             return _reportDAL.GetWithAllies(id);

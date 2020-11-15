@@ -20,13 +20,15 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
         private readonly ITaskService _taskService;
         private readonly UserManager<AppUser> _userManager;
         private readonly IFileService _fileService;
+        private readonly INotificationService _notificationService;
 
-        public TaskOperationController(IAppUserService appUserService, ITaskService taskService, UserManager<AppUser> userManager, IFileService fileService)
+        public TaskOperationController(IAppUserService appUserService, ITaskService taskService, UserManager<AppUser> userManager, IFileService fileService, INotificationService notificationService)
         {
             _appUserService = appUserService;
             _taskService = taskService;
             _userManager = userManager;
             _fileService = fileService;
+            _notificationService = notificationService;
         }
         
         public IActionResult Index()
@@ -121,6 +123,11 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
             var task = _taskService.GetById(model.TaskId);
             task.AppUserId = model.AppUserId;
             _taskService.Update(task);
+            _notificationService.Save(new Notification
+            {
+                AppUserId = model.AppUserId,
+                Description = string.Format("{0} işi için görevlendirildiniz.",task.Name)
+            }) ;
             return RedirectToAction("Index");
         }
 

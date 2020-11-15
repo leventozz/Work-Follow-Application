@@ -12,7 +12,12 @@
         <a asp-action="Index" asp-controller="TaskOperation" class="list-group-item list-group-item-action @(active=="taskOperation"?"active":"")"><i class="fas fa-user-edit mr-1"></i>Görev Atama İşlemleri</a>
         <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-chart-bar mr-1"></i>Grafikler</a>
         <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-chart-pie mr-1"></i>İstatistikler</a>
-        <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-chart-pie mr-1"></i>Bildirimler</a>
+        <a asp-action="Index" asp-controller="Notification" class="list-group-item list-group-item-action position-relative @(active=="notifications"?"active":"")"><i class="far fa-bell mr-2"></i>
+            @if (ViewBag.NotificationCount > 0)
+            {
+        <sub class="badge badge-info badge-pill position-absolute" style="bottom:0.625rem!important; left:1.7rem!important"><small>@ViewBag.NotificationCount</small></sub>}
+            Bildirimler
+        </a>
         <a asp-action="Index" asp-controller="Profile" class="list-group-item list-group-item-action @(active=="profile"?"active":"")"><i class="fas fa-user mr-1"></i>Profilim</a>
         <a asp-area="" asp-action="SignOut" asp-controller="Home" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt mr-1"></i>Çıkış Yap</a>
     </div>

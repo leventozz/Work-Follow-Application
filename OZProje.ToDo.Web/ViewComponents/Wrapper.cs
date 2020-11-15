@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.Areas.Admin.Models;
 using System;
@@ -12,9 +13,11 @@ namespace OZProje.ToDo.Web.ViewComponents
     public class Wrapper : ViewComponent
     {
         private readonly UserManager<AppUser> _userManager;
-        public Wrapper(UserManager<AppUser> userManager)
+        private readonly INotificationService _notificationService;
+        public Wrapper(UserManager<AppUser> userManager, INotificationService notificationService)
         {
             _userManager = userManager;
+            _notificationService = notificationService;
         }
 
         public IViewComponentResult Invoke()
@@ -27,6 +30,9 @@ namespace OZProje.ToDo.Web.ViewComponents
             model.Picture = user.Picture;
             model.Surname = user.Surname;
             model.Email = user.Email;
+
+            var notifications = _notificationService.GetUnread(user.Id).Count();
+            ViewBag.NotificationCount = notifications;
 
             var roles = _userManager.GetRolesAsync(user).Result;
 
