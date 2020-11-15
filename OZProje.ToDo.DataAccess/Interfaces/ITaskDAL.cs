@@ -14,5 +14,6 @@ namespace OZProje.ToDo.DataAccess.Interfaces
         Task GetByPriorityId(int id);
         List<Task> GetByAppUserId(int appUserId);
         Task GetReportsById(int id);
+        List<Task> GetCompletedWithAllies(out int totalIndex, int userId, int activeIndex);
     }
 }

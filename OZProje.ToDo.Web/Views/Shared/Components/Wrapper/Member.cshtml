@@ -8,7 +8,7 @@
     </div>
     <div class="list-group list-group-flush">
         <a asp-action="Index" asp-controller="TaskOperation" class="list-group-item list-group-item-action @(active=="taskoperation"?"active":"")"><i class="fas fa-list mr-1"></i>Task Listesi</a>
-        <a href="#" class="list-group-item list-group-item-action"><i class="far fa-check-circle mr-1"></i>Tamamlanan Tasklar</a>
+        <a asp-action="Index" asp-controller="CompletedTasks" class="list-group-item list-group-item-action @(active=="completedTasks"?"active":"")"><i class="far fa-check-circle mr-1"></i>Tamamlanan Tasklar</a>
         <a href="#" class="list-group-item list-group-item-action"><i class="fas fa-chart-pie mr-1"></i>Bildirimler</a>
         <a asp-action="Index" asp-controller="Profile" class="list-group-item list-group-item-action @(active=="profile"?"active":"")"><i class="fas fa-user mr-1"></i>Profilim</a>
         <a asp-area="" asp-action="SignOut" asp-controller="Home" class="list-group-item list-group-item-action"><i class="fas fa-sign-out-alt mr-1"></i>Çıkış Yap</a>

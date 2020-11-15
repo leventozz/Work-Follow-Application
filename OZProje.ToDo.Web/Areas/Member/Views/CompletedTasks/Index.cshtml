@@ -1,0 +1,66 @@
+﻿@model List<TaskListAllViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Member/Views/Shared/_MemberLayout.cshtml";
+    int index = 0;
+}
+
+@if (Model.Count > 0)
+{
+    @foreach (var task in Model)
+    {
+        index++;
+        <div class="card my-1">
+            <h5 class="card-header">@task.Name</h5>
+            <div class="card-body">
+                <h5 class="card-title"><span class="text-danger">Aciliyet Durumu: </span>@task.Priority.Definition</h5>
+                <p class="card-text">@task.Description</p>
+
+                <p class="text-right">
+                    @if (task.Reports.Count > 0)
+                    {
+                        <a class="btn btn-light btn-sm" data-toggle="collapse" href="#collapseExample-@index" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Raporlara Git <i class="fas fa-angle-down ml-2 mr-1"></i>
+                            <span class="badge badge-dark">@task.Reports.Count</span>
+                        </a>
+                    }
+                </p>
+                <div class="collapse" id="collapseExample-@index">
+                    <a asp-action="AddReport" asp-route-id="@task.Id" class="btn btn-light btn-sm mb-1">Rapor Yaz <i class="fas fa-pencil-alt ml-1"></i></a>
+                    <table class="table table-hover table-bordered table-sm">
+                        <tr>
+                            <th>Ad</th>
+                            <th>Açıklama</th>
+                        </tr>
+                        @foreach (var report in task.Reports)
+                        {
+                            <tr>
+                                <td>@report.Title</td>
+                                <td>@report.Description</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h5 class="text-center mt-5">Tamamlanmış bir göreviniz bulunmamaktadır.</h5>
+}
+
+<nav aria-label="Page navigation example" class="float-right">
+    <ul class="pagination">
+        @for (int i = 1; i <= ViewBag.TotalIndex; i++)
+        {
+            <li class="page-item @(ViewBag.ActiveIndex == i ? "active":string.Empty)">
+                <a class="page-link" asp-action="Index" asp-route-activeIndex="@i">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
+
+
+
+

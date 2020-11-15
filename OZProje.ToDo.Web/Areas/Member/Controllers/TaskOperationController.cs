@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
@@ -11,6 +12,7 @@ using OZProje.ToDo.Web.Areas.Admin.Models;
 namespace OZProje.ToDo.Web.Areas.Member.Controllers
 {
     [Area("Member")]
+    [Authorize(Roles = "Member")]
     public class TaskOperationController : Controller
     {
         private readonly IReportService _reportService;
@@ -28,7 +30,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
 
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            var tasks = _taskService.GetWithAlias(x => x.AppUserId == user.Id && !x.IsComplete);
+            var tasks = _taskService.GetWithAllies(x => x.AppUserId == user.Id && !x.IsComplete);
             List<TaskListAllViewModel> models = new List<TaskListAllViewModel>();
 
             foreach (var item in tasks)

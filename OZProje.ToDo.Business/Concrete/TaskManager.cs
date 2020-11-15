@@ -41,6 +41,11 @@ namespace OZProje.ToDo.Business.Concrete
             return _taskDAL.GetByPriorityId(id);
         }
 
+        public List<Task> GetCompletedWithAllies(out int totalIndex, int userId, int activeIndex)
+        {
+            return _taskDAL.GetCompletedWithAllies(out totalIndex, userId, activeIndex);
+        }
+
         public List<Task> GetIsNotCompleted()
         {
             return _taskDAL.GetIsNotCompleted();
@@ -51,12 +56,12 @@ namespace OZProje.ToDo.Business.Concrete
             return _taskDAL.GetReportsById(id);
         }
 
-        public List<Task> GetWithAlias()
+        public List<Task> GetWithAllies()
         {
             return _taskDAL.GetWithAllies();
         }
 
-        public List<Task> GetWithAlias(Expression<Func<Task, bool>> filter)
+        public List<Task> GetWithAllies(Expression<Func<Task, bool>> filter)
         {
             return _taskDAL.GetWithAllies(filter);
         }

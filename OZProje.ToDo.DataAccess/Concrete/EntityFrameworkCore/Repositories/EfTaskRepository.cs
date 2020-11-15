@@ -46,5 +46,14 @@ namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
             using var context = new ToDoContext();
             return context.Tasks.Include(x => x.Priority).Include(x => x.Reports).Include(x => x.AppUser).Where(filter).OrderByDescending(x => x.CreatedOn).ToList();
         }
+
+        public List<Task> GetCompletedWithAllies(out int totalIndex, int userId, int activeIndex=1)
+        {
+            using var context = new ToDoContext();
+            var values= context.Tasks.Include(x => x.Priority).Include(x => x.Reports).Include(x => x.AppUser).Where(x=>x.AppUserId==userId).Where(x=>x.IsComplete).OrderByDescending(x => x.CreatedOn);
+
+            totalIndex = (int)Math.Ceiling((double)values.Count() / 3);
+            return values.Skip((activeIndex - 1) * 3).Take(3).ToList();
+        }
     }
 }

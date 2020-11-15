@@ -34,7 +34,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
             TempData["Active"] = "taskOperation";
             //var temp = _appUserService.GetMembers();
 
-            var tasks =_taskService.GetWithAlias();
+            var tasks =_taskService.GetWithAllies();
             List<TaskListAllViewModel> models = new List<TaskListAllViewModel>();
             foreach (var item in tasks)
             {

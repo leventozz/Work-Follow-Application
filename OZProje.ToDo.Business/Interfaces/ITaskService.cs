@@ -9,10 +9,11 @@ namespace OZProje.ToDo.Business.Interfaces
     public interface ITaskService: IGenericService<Task>
     {
         List<Task> GetIsNotCompleted();
-        List<Task> GetWithAlias();
+        List<Task> GetWithAllies();
         Task GetByPriorityId(int id);
         List<Task> GetByAppUserId(int appUserId);
         Task GetReportsById(int id);
-        List<Task> GetWithAlias(Expression<Func<Task, bool>> filter);
+        List<Task> GetWithAllies(Expression<Func<Task, bool>> filter);
+        List<Task> GetCompletedWithAllies(out int totalIndex, int userId, int activeIndex=1);
     }
 }
