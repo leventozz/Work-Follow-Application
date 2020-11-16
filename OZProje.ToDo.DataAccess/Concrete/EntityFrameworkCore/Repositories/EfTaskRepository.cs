@@ -67,5 +67,17 @@ namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
             using var context = new ToDoContext();
             return context.Tasks.Where(x => x.AppUserId == userId && !x.IsComplete).Count();
         }
+
+        public int GetNotAssignedTaskCount()
+        {
+            using var context = new ToDoContext();
+            return context.Tasks.Where(x => x.AppUserId == null && !x.IsComplete).Count();
+        }
+
+        public int GetAllCompletedTaskCount()
+        {
+            using var context = new ToDoContext();
+            return context.Tasks.Where(x => x.IsComplete == true).Count();
+        }
     }
 }

@@ -23,5 +23,15 @@ namespace OZProje.ToDo.Business.Concrete
         {
             return _appUserDAL.GetMembers(out totalPage, searchKey, activePage);
         }
+
+        public List<DualHelper> GetTopActivePersonnels()
+        {
+            return _appUserDAL.GetTopActivePersonnels();
+        }
+
+        public List<DualHelper> GetTopTaskCompletionPersonnels()
+        {
+            return _appUserDAL.GetTopTaskCompletionPersonnels();
+        }
     }
 }

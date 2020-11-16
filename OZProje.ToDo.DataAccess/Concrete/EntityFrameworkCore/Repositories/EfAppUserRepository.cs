@@ -1,19 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore.Internal;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Contexts;
 using OZProje.ToDo.DataAccess.Interfaces;
 using OZProje.ToDo.Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
 {
     public class EfAppUserRepository : IAppUserDAL
     {
-        /* select * from AspNetUsers inner join AspNetUserRoles on AspNetUsers.Id=AspNetUserRoles.UserId
-inner join AspNetRoles on AspNetUserRoles.RoleId=AspNetRoles.Id where AspNetRoles.Name='Member'*/
         public List<AppUser> GetMembers()
         {
             using var context = new ToDoContext();
@@ -72,6 +69,29 @@ inner join AspNetRoles on AspNetUserRoles.RoleId=AspNetRoles.Id where AspNetRole
             result = result.Skip((activePage - 1) * 3).Take(3);
 
             return result.ToList();
+        }
+        public List<DualHelper> GetTopTaskCompletionPersonnels()
+        {
+            using var context = new ToDoContext();
+            return context.Tasks.Include(x => x.AppUser).Where(x => x.IsComplete == true)
+                .GroupBy(x => x.AppUser.UserName)
+                .OrderByDescending(x=>x.Count())
+                .Select(x=>new DualHelper { 
+                Name = x.Key,
+                TaskCount = x.Count()
+                }).ToList();
+        }
+        public List<DualHelper> GetTopActivePersonnels()
+        {
+            using var context = new ToDoContext();
+            return context.Tasks.Include(x => x.AppUser).Where(x => x.IsComplete == false && x.AppUserId != null)
+                .GroupBy(x => x.AppUser.UserName)
+                .OrderByDescending(x => x.Count())
+                .Select(x => new DualHelper
+                {
+                    Name = x.Key,
+                    TaskCount = x.Count()
+                }).ToList();
         }
     }
 }

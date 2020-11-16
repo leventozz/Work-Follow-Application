@@ -9,5 +9,7 @@ namespace OZProje.ToDo.Business.Interfaces
     {
         List<AppUser> GetMembers(out int totalPage, string searchKey, int activePage);
         List<AppUser> GetMembers();
+        public List<DualHelper> GetTopTaskCompletionPersonnels();
+        public List<DualHelper> GetTopActivePersonnels();
     }
 }

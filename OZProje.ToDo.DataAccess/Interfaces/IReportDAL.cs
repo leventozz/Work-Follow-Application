@@ -6,5 +6,6 @@ namespace OZProje.ToDo.DataAccess.Interfaces
     {
         Report GetWithAllies(int id);
         int GetReportsCount(int userId);
+        int GetAllReportsCount();
     }
 }

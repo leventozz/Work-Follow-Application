@@ -4,5 +4,47 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-white text-center bg-primary my-3">
+            <div class="card-body">
+                <h4 class="card-title">Personel Ataması Bekleyen Tasklar</h4>
+                <p class="card-text display-4">@ViewBag.NotAssignedTaskCount</p>
+                <p>
+                    <a asp-action="Index" asp-controller="TaskOperation" class="btn btn-light btn-sm">Tasklara Git</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white text-center bg-primary my-3">
+            <div class="card-body">
+                <h4 class="card-title">Tamamlanan Task Sayısı</h4>
+                <p class="card-text display-4">@ViewBag.AllCompletedTaskCount</p>
+                @*<p>
+                    <a asp-action="Index" asp-controller="TaskOperation" class="btn btn-light btn-sm">Taskları Görüntüle</a>
+                </p>*@
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white text-center bg-primary my-3">
+            <div class="card-body">
+                <h4 class="card-title">Bildirimleriniz</h4>
+                <p class="card-text display-4">@ViewBag.UnreadNotificationCount</p>
+                <p>
+                    <a asp-action="Index" asp-controller="Notification" class="btn btn-light btn-sm">Bildirimleri Görüntüle</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white text-center bg-primary my-3">
+            <div class="card-body">
+                <h4 class="card-title">Toplam Yazılan Rapor Sayısı</h4>
+                <p class="card-text display-4">@ViewBag.AllReportCount</p>
+            </div>
+        </div>
+    </div>
+</div>
 

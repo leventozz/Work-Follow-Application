@@ -9,5 +9,6 @@ namespace OZProje.ToDo.Business.Interfaces
     {
         Report GetWithAllies(int id);
         int GetReportsCount(int userId);
+        int GetAllReportsCount();
     }
 }

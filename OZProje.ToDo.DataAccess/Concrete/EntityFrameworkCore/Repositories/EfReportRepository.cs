@@ -8,6 +8,12 @@ namespace OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories
 {
     public class EfReportRepository : EfGenericRepository<Report>, IReportDAL
     {
+        public int GetAllReportsCount()
+        {
+            using var context = new ToDoContext();
+            return context.Reports.Count();
+        }
+
         public int GetReportsCount(int userId)
         {
             using var context = new ToDoContext();

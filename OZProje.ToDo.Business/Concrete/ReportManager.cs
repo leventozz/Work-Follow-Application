@@ -25,6 +25,11 @@ namespace OZProje.ToDo.Business.Concrete
             return _reportDAL.GetAll();
         }
 
+        public int GetAllReportsCount()
+        {
+            return _reportDAL.GetAllReportsCount();
+        }
+
         public Report GetById(int id)
         {
             return _reportDAL.GetById(id);

@@ -17,5 +17,7 @@ namespace OZProje.ToDo.DataAccess.Interfaces
         List<Task> GetCompletedWithAllies(out int totalIndex, int userId, int activeIndex);
         int GetCompletedTaskCount(int userId);
         int GetNotCompletedTaskCount(int userId);
+        int GetNotAssignedTaskCount();
+        int GetAllCompletedTaskCount();
     }
 }

@@ -26,6 +26,11 @@ namespace OZProje.ToDo.Business.Concrete
             return _taskDAL.GetAll();
         }
 
+        public int GetAllCompletedTaskCount()
+        {
+            return _taskDAL.GetAllCompletedTaskCount();
+        }
+
         public List<Task> GetByAppUserId(int appUserId)
         {
             return _taskDAL.GetByAppUserId(appUserId);
@@ -54,6 +59,11 @@ namespace OZProje.ToDo.Business.Concrete
         public List<Task> GetIsNotCompleted()
         {
             return _taskDAL.GetIsNotCompleted();
+        }
+
+        public int GetNotAssignedTaskCount()
+        {
+            return _taskDAL.GetNotAssignedTaskCount();
         }
 
         public int GetNotCompletedTaskCount(int userId)

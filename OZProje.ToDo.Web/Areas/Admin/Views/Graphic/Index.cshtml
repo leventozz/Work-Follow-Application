@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div id="donutchart" class="w-100" style="height: 500px;"></div>
+    </div>
+    <div class="col-md-6">
+        <div id="donutchart2" class="w-100" style="height: 500px;"></div>
+    </div>
+</div>
+
+@section JavaScript{
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        let topTaskCompletion = [['Personnel Name', 'CompletedTaskCount']]
+
+        $.ajax({
+            type: "GET",
+            url: "./Graphic/GetTopTaskCompletionPersonnels",
+            async: false,
+            success: function (data) {
+                let currentObject = jQuery.parseJSON(data);
+                $.each(currentObject, (index, value) => {
+                    topTaskCompletion.push([value.Name, value.TaskCount]);
+                })
+            }
+        })
+
+
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(topTaskCompletion);
+
+            var options = {
+                title: 'En Çok Task Tamamlayan Personeller',
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+
+        let topActivePersonnels = [['Personnel Name', 'ActiveTaskCount']]
+
+        $.ajax({
+            type: "GET",
+            url: "./Graphic/GetTopActivePersonnels",
+            async: false,
+            success: function (data) {
+                let currentObject = jQuery.parseJSON(data);
+                $.each(currentObject, (index, value) => {
+                    topActivePersonnels.push([value.Name, value.TaskCount]);
+                })
+            }
+        })
+
+
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(drawChart2);
+        function drawChart2() {
+            var data = google.visualization.arrayToDataTable(topActivePersonnels);
+
+            var options = {
+                title: 'En Çok Aktif Taskı Bulunan Personeller',
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart2'));
+            chart.draw(data, options);
+        }
+    </script>
+}
