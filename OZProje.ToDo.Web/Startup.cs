@@ -1,3 +1,6 @@
+using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -5,9 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OZProje.ToDo.Business.Concrete;
 using OZProje.ToDo.Business.Interfaces;
+using OZProje.ToDo.Business.ValidationRules.FluentValidation;
 using OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Contexts;
 using OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories;
 using OZProje.ToDo.DataAccess.Interfaces;
+using OZProje.ToDo.DTO.DTOs.AppUserDTOs;
+using OZProje.ToDo.DTO.DTOs.PriorityDTOs;
+using OZProje.ToDo.DTO.DTOs.ReportDTOs;
+using OZProje.ToDo.DTO.DTOs.TaskDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using System;
 
@@ -51,7 +59,17 @@ namespace OZProje.ToDo.Web
                 opt.LoginPath = "/Home/Index";
             });
 
-            services.AddControllersWithViews();
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddTransient<IValidator<AppUserAddDto>, AppUserAddValidator>();
+            services.AddTransient<IValidator<AppUserSignInDto>, AppUserSignInValidator>();
+            services.AddTransient<IValidator<PriorityAddDto>, PriorityAddValidator>();
+            services.AddTransient<IValidator<PriorityUpdateDto>, PriorityUpdateValidator>();
+            services.AddTransient<IValidator<ReportAddDto>, ReportAddValidator>();
+            services.AddTransient<IValidator<ReportUpdateDto>, ReportUpdateValidator>();
+            services.AddTransient<IValidator<TaskAddDto>, TaskAddValidator>();
+            services.AddTransient<IValidator<TaskUpdateDto>, TaskUpdateValidator>();
+            services.AddControllersWithViews().AddFluentValidation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
