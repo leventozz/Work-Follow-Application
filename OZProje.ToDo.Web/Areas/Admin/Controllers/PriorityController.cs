@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
+using OZProje.ToDo.DTO.DTOs.PriorityDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.Areas.Admin.Models;
 
@@ -15,58 +17,46 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
     public class PriorityController : Controller
     {
         private readonly IPriorityService _priorityService;
-        public PriorityController(IPriorityService priorityService)
+        private readonly IMapper _mapper;
+        public PriorityController(IPriorityService priorityService, IMapper mapper)
         {
             _priorityService = priorityService;
+            _mapper = mapper;
         }
+
         public IActionResult Index()
         {
             TempData["Active"] = "priority";
-            List<Priority> priorities = _priorityService.GetAll();
-            List<PriorityListViewModel> model = new List<PriorityListViewModel>();
-            foreach (var item in priorities)
-            {
-                PriorityListViewModel priorityListViewModel = new PriorityListViewModel();
-                priorityListViewModel.Id = item.Id;
-                priorityListViewModel.Definition = item.Definition;
-
-                model.Add(priorityListViewModel);
-            }
-
-            return View(model);
+            return View(_mapper.Map<List<PriorityListDto>>(_priorityService.GetAll()));
         }
+
         public IActionResult AddPriority()
         {
-            return View(new PriorityAddViewModel());
+            return View(new PriorityAddDto());
         }
 
         [HttpPost]
-        public IActionResult AddPriority(PriorityAddViewModel model)
+        public IActionResult AddPriority(PriorityAddDto model)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 _priorityService.Save(new Priority()
-                { 
+                {
                     Definition = model.Defination,
                 });
                 return RedirectToAction("Index");
             }
             return View(model);
         }
-        [HttpGet]
+
         public IActionResult UpdatePriority(int id)
         {
             TempData["Active"] = "priority";
-            var priority = _priorityService.GetById(id);
-            PriorityUpdateViewModel model = new PriorityUpdateViewModel
-            {
-                Id = priority.Id,
-                Defination = priority.Definition
-            };
-            return View(model);        
+            return View(_mapper.Map<PriorityUpdateDto>(_priorityService.GetById(id)));
         }
+
         [HttpPost]
-        public IActionResult UpdatePriority(PriorityUpdateViewModel model)
+        public IActionResult UpdatePriority(PriorityUpdateDto model)
         {
             if (ModelState.IsValid)
             {

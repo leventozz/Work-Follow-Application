@@ -12,6 +12,6 @@ namespace OZProje.ToDo.DTO.DTOs.TaskDTOs
         public DateTime CreatedOn { get; set; }
         public bool IsComplete { get; set; }
         public int PriorityId { get; set; }
-        public Priority Priority { get; set; }
+        //public Priority Priority { get; set; }
     }
 }

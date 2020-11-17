@@ -9,6 +9,6 @@ namespace OZProje.ToDo.DTO.DTOs.ReportDTOs
         public string Title { get; set; }
         public string Description { get; set; }
         public int TaskId { get; set; }
-        public Task Task { get; set; }
+        //public Task Task { get; set; }
     }
 }

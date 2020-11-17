@@ -14,6 +14,6 @@ namespace OZProje.ToDo.DTO.DTOs.ReportDTOs
         //[Required(ErrorMessage = "Detay alanı boş geçilemez")]
         public string Description { get; set; }
         public int TaskId { get; set; }
-        public Task Task { get; set; }
+        //public Task Task { get; set; }
     }
 }

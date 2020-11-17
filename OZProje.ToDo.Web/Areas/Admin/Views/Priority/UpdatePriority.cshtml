@@ -1,4 +1,4 @@
-﻿@model PriorityUpdateViewModel
+﻿@model PriorityUpdateDto
 @{
     ViewData["Title"] = "UpdatePriority";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -7,7 +7,7 @@
 <form asp-action="UpdatePriority" class="w-75 mx-auto p-3" method="post">
     <input type="hidden" asp-for="Id" />
     <div class="form-group">
-        <label asp-for="Defination"></label>
+        <label asp-for="Defination">Tanım: </label>
         <span asp-validation-for="Defination" class="text-danger"></span>
         <input asp-for="Defination" type="text" class="form-control" />
     </div>

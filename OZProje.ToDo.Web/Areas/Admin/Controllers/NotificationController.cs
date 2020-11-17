@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
+using OZProje.ToDo.DTO.DTOs.NotificationDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.Areas.Admin.Models;
 
@@ -15,25 +17,18 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
     {
         private readonly INotificationService _notificationService;
         private readonly UserManager<AppUser> _userManager;
-        public NotificationController(INotificationService notificationService, UserManager<AppUser> userManager)
+        private readonly IMapper _mapper;
+        public NotificationController(INotificationService notificationService, UserManager<AppUser> userManager, IMapper mapper)
         {
             _notificationService = notificationService;
             _userManager = userManager;
+            _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
             TempData["active"] = "notifications";
             var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            var notificationList = _notificationService.GetUnread(currentUser.Id);
-            List<NotificationListViewModel> viewModels = new List<NotificationListViewModel>();
-            foreach (var notification in notificationList)
-            {
-                NotificationListViewModel model = new NotificationListViewModel();
-                model.Description = notification.Description;
-                model.Id = notification.Id;
-                viewModels.Add(model);
-            }
-            return View(viewModels);
+            return View(_mapper.Map<List<NotificationListDto>>(_notificationService.GetUnread(currentUser.Id)));
         }
 
         [HttpPost]
