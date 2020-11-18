@@ -9,10 +9,10 @@ namespace OZProje.ToDo.Web.Areas.Admin.Models
 {
     public class TaskAddViewModel
     {
-        [Required(ErrorMessage ="Ad alanı boş bırakılamaz")]
+        //[Required(ErrorMessage ="Ad alanı boş bırakılamaz")]
         public string Name { get; set; }
         public string Description { get; set; }
-        [Range(0, int.MaxValue, ErrorMessage ="Lütfen bir önem sırası belirtiniz")]
+        //[Range(0, int.MaxValue, ErrorMessage ="Lütfen bir önem sırası belirtiniz")]
         public int PriorityId { get; set; }
 
     }

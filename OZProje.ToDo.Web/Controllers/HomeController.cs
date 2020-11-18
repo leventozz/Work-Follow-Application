@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
+using OZProje.ToDo.DTO.DTOs.AppUserDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.Models;
 
@@ -15,11 +17,13 @@ namespace OZProje.ToDo.Web.Controllers
         private readonly ITaskService _taskService;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        public HomeController(ITaskService taskService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly IMapper _mapper;
+        public HomeController(ITaskService taskService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMapper mapper)
         {
             _taskService = taskService;
             _userManager = userManager;
             _signInManager = signInManager;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -33,7 +37,7 @@ namespace OZProje.ToDo.Web.Controllers
         }
 
         [HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> SignUp(AppUserAddViewModel model)
+        public async System.Threading.Tasks.Task<IActionResult> SignUp(AppUserAddDto model)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +71,7 @@ namespace OZProje.ToDo.Web.Controllers
             return View();
         }
 
-        public async System.Threading.Tasks.Task<IActionResult> SignIn(AppUserSignInViewModel model)
+        public async System.Threading.Tasks.Task<IActionResult> SignIn(AppUserSignInDto model)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +92,7 @@ namespace OZProje.ToDo.Web.Controllers
                         }
                     }
                 }
-                ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalı");
+                ModelState.AddModelError("Password", "Kullanıcı adı veya şifre hatalı");
             }
             return View("Index", model);
         }

@@ -47,6 +47,8 @@ namespace OZProje.ToDo.Web.Mapping.AutoMapperProfile
             CreateMap<Task, TaskListDto>();
             CreateMap<TaskUpdateDto, Task>();
             CreateMap<Task, TaskUpdateDto>();
+            CreateMap<TaskListAllDto, Task>();
+            CreateMap<Task,TaskListAllDto>();
             #endregion
 
             #region ReportMapping

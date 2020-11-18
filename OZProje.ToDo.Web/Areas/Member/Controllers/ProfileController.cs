@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using OZProje.ToDo.DTO.DTOs.AppUserDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.Areas.Admin.Models;
 
@@ -17,21 +19,17 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
     public class ProfileController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
-        public ProfileController(UserManager<AppUser> userManager)
+        private readonly IMapper _mapper;
+        public ProfileController(UserManager<AppUser> userManager, IMapper mapper)
         {
             _userManager = userManager;
+            _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
             TempData["Active"] = "profile";
-            var appUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            AppUserListViewModel model = new AppUserListViewModel();
-            model.Id = appUser.Id;
-            model.Name = appUser.Name;
-            model.Surname = appUser.Surname;
-            model.Picture = appUser.Picture;
-            model.Email = appUser.Email;
-            return View(model);
+            var result = _mapper.Map<AppUserListDto>(await _userManager.FindByNameAsync(User.Identity.Name));
+            return View(result);
         }
         [HttpPost]
         public async Task<IActionResult> Index(AppUserListViewModel model, IFormFile namePicture) 

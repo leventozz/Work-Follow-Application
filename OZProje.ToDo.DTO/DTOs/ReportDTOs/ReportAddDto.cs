@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OZProje.ToDo.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,6 +10,6 @@ namespace OZProje.ToDo.DTO.DTOs.ReportDTOs
         public string Title { get; set; }
         public string Description { get; set; }
         public int TaskId { get; set; }
-        //public Task Task { get; set; }
+        public Task Task { get; set; }
     }
 }

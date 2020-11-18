@@ -1,45 +1,45 @@
-﻿@model AppUserAddViewModel
+﻿@model AppUserAddDto
 @{
     ViewData["Title"] = "SignUp";
     Layout = "~/Views/Shared/_BasicLayout.cshtml";
 }
 
-    <form asp-action="SignUp" method="post" class="mt-4 w-75 mx-auto p-3 shadow">
-        <h4 class="text-center">Kayıt Ol</h4>
-        <div class="form-group">
-            <label asp-for="UserName"></label>
-            <span asp-validation-for="UserName" class="text-danger"></span>
-            <input asp-for="UserName" class="form-control"/>
-        </div>
-        <div class="form-group">
-            <label asp-for="Name"></label>
-            <span asp-validation-for="Name" class="text-danger"></span>
-            <input asp-for="Name" class="form-control"/>
-        </div>
-        <div class="form-group">
-            <label asp-for="Surname"></label>
-            <span asp-validation-for="Surname" class="text-danger"></span>
-            <input asp-for="Surname" class="form-control"/>
-        </div>
-        <div class="form-group">
-            <label asp-for="Email"></label>
-            <span asp-validation-for="Email" class="text-danger"></span>
-            <input asp-for="Email" class="form-control"/>
-        </div>
-        <div class="form-group">
-            <label asp-for="Password"></label>
-            <span asp-validation-for="Password" class="text-danger"></span>
-            <input asp-for="Password" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label asp-for="ConfirmPassword"></label>
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            <input asp-for="ConfirmPassword" class="form-control"/>
-        </div>
+<form asp-action="SignUp" method="post" class="mt-4 w-75 mx-auto p-3 shadow">
+    <h4 class="text-center">Kayıt Ol</h4>
+    <div class="form-group">
+        <label asp-for="UserName">Kullanıcı Adı: </label>
+        <span asp-validation-for="UserName" class="text-danger"></span>
+        <input asp-for="UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Name">Ad: </label>
+        <span asp-validation-for="Name" class="text-danger"></span>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Surname">Soyad: </label>
+        <span asp-validation-for="Surname" class="text-danger"></span>
+        <input asp-for="Surname" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email">Email: </label>
+        <span asp-validation-for="Email" class="text-danger"></span>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password">Şifre: </label>
+        <span asp-validation-for="Password" class="text-danger"></span>
+        <input type="password" asp-for="Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword">Şifre Tekrar: </label>
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        <input type="password" asp-for="ConfirmPassword" class="form-control" />
+    </div>
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <button type="submit" class="btn btn-info btn-sm">Kayıt Ol</button>
-        <a asp-action="Index" class="btn btn-warning btn-sm">Vazgeç</a>
-    </form>
+    <button type="submit" class="btn btn-info btn-sm">Kayıt Ol</button>
+    <a asp-action="Index" class="btn btn-warning btn-sm">Vazgeç</a>
+</form>
 

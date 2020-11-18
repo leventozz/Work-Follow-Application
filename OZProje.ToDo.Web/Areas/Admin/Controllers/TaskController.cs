@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OZProje.ToDo.Business.Interfaces;
+using OZProje.ToDo.DTO.DTOs.TaskDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.Areas.Admin.Models;
 
@@ -17,40 +19,27 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
     {
         private readonly ITaskService _taskService;
         private readonly IPriorityService _priorityService;
-        public TaskController(ITaskService taskService, IPriorityService priorityService)
+        private readonly IMapper _mapper;
+        public TaskController(ITaskService taskService, IPriorityService priorityService, IMapper mapper)
         {
             _taskService = taskService;
             _priorityService = priorityService;
+            _mapper = mapper;
         }
         public IActionResult Index()
         {
             TempData["Active"] = "task";
-            List<Task> tasks = _taskService.GetIsNotCompleted();
-            List<TaskListViewModel> models = new List<TaskListViewModel>();
-            foreach (var item in tasks)
-            {
-                TaskListViewModel model = new TaskListViewModel
-                {
-                    Description = item.Description,
-                    CreatedOn = item.CreatedOn,
-                    Id = item.Id,
-                    IsComplete = item.IsComplete,
-                    Name = item.Name,
-                    Priority = item.Priority,
-                    PriorityId = item.PriorityId
-                };
-                models.Add(model);
-            }
-            return View(models);
+            var result =_mapper.Map<List<TaskListDto>>(_taskService.GetIsNotCompleted());
+            return View(result);
         }
         public IActionResult AddTask()
         {
             TempData["Active"] = "task";
             ViewBag.PriorityList = new SelectList(_priorityService.GetAll(),"Id", "Definition");
-            return View(new TaskAddViewModel());
+            return View(new TaskAddDto());
         }
         [HttpPost]
-        public IActionResult AddTask(TaskAddViewModel model)
+        public IActionResult AddTask(TaskAddDto model)
         {
             if (ModelState.IsValid)
             {
@@ -64,24 +53,15 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
             }
             return View(model);
         }
-
         public IActionResult UpdateTask(int id)
         {
             TempData["Active"] = "task";
-            var task = _taskService.GetById(id);
-            TaskUpdateViewModel model = new TaskUpdateViewModel()
-            {
-                Id = task.Id,
-                Name=task.Name,
-                Description = task.Description,
-                PriorityId=task.PriorityId
-            };
-            ViewBag.PriorityList = new SelectList(_priorityService.GetAll(), "Id", "Definition",task.PriorityId);
-            return View(model);
+            var result = _mapper.Map<TaskUpdateDto>(_taskService.GetById(id));
+            ViewBag.PriorityList = new SelectList(_priorityService.GetAll(), "Id", "Definition", result.PriorityId);
+            return View(result);
         }
-
         [HttpPost]
-        public IActionResult UpdateTask(TaskUpdateViewModel model)
+        public IActionResult UpdateTask(TaskUpdateDto model)
         {
             if (ModelState.IsValid)
             {
@@ -94,6 +74,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
                 });
                 return RedirectToAction("Index");
             }
+            ViewBag.PriorityList = new SelectList(_priorityService.GetAll(), "Id", "Definition", model.PriorityId);
             return View(model);
         }
         public IActionResult DeleteTask(int id)
