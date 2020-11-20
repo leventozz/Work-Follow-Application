@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OZProje.ToDo.Business.Concrete;
+using OZProje.ToDo.Business.CustomLogger;
 using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DataAccess.Concrete.EntityFrameworkCore.Repositories;
 using OZProje.ToDo.DataAccess.Interfaces;
@@ -22,6 +23,8 @@ namespace OZProje.ToDo.Business.DiContainer
             services.AddScoped<IPriorityDAL, EfPriorityRepository>();
             services.AddScoped<IAppUserDAL, EfAppUserRepository>();
             services.AddScoped<INotificationDAL, EfNotificationRepository>();
+
+            services.AddTransient<ICustomLogger, NLogLogger>();
         }
     }
 }

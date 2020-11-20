@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
@@ -15,9 +16,11 @@ namespace OZProje.ToDo.Web.Controllers
     public class HomeController : BaseIdentityController
     {
         private readonly SignInManager<AppUser> _signInManager;
-        public HomeController( UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : base(userManager)
+        private readonly ICustomLogger _customLogger;
+        public HomeController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ICustomLogger customLogger) : base(userManager)
         {
             _signInManager = signInManager;
+            _customLogger = customLogger;
         }
 
         public IActionResult Index()
@@ -66,13 +69,13 @@ namespace OZProje.ToDo.Web.Controllers
                 var user = await _userManager.FindByNameAsync(model.UserName);
                 if (user != null)
                 {
-                    var result = await _signInManager.PasswordSignInAsync(model.UserName,model.Password,model.RememberMe,false);
+                    var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {
-                       var roles = await _userManager.GetRolesAsync(user);
+                        var roles = await _userManager.GetRolesAsync(user);
                         if (roles.Contains("Admin"))
                         {
-                            return RedirectToAction("Index","Home", new { area="Admin" });
+                            return RedirectToAction("Index", "Home", new { area = "Admin" });
                         }
                         else
                         {
@@ -99,6 +102,20 @@ namespace OZProje.ToDo.Web.Controllers
                 ViewBag.Message = "Sayfa Bulunamadı";
             }
             return View();
+        }
+
+        public IActionResult Error()
+        {
+            var exceptionHandler = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            _customLogger.AddErrorLog(string.Format("Hatanın oluştuğu yer:{0} \nHata mesajı: {1}\nStack Trace: {2}", exceptionHandler.Path,exceptionHandler.Error.Message,exceptionHandler.Error.StackTrace));
+            ViewBag.Path = exceptionHandler.Path;
+            ViewBag.Message = exceptionHandler.Error.Message;
+            return View();
+        }
+
+        public IActionResult TakeError()
+        {
+            throw new Exception("error");
         }
     }
 }
