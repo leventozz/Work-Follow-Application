@@ -7,27 +7,25 @@ using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.NotificationDTOs;
 using OZProje.ToDo.Entities.Concrete;
-using OZProje.ToDo.Web.Areas.Admin.Models;
+using OZProje.ToDo.Web.BaseControllers;
 
 namespace OZProje.ToDo.Web.Areas.Member.Controllers
 {
     [Area("Member")]
     [Authorize(Roles = "Member")]
-    public class NotificationController : Controller
+    public class NotificationController : BaseIdentityController
     {
         private readonly INotificationService _notificationService;
-        private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
-        public NotificationController(INotificationService notificationService, UserManager<AppUser> userManager, IMapper mapper)
+        public NotificationController(INotificationService notificationService, UserManager<AppUser> userManager, IMapper mapper) : base(userManager)
         {
             _notificationService = notificationService;
-            _userManager = userManager;
             _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
             TempData["active"] = "notifications";
-            var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            var currentUser = await GetLoginedUser();
             var result = _mapper.Map<List<NotificationListDto>>(_notificationService.GetUnread(currentUser.Id));
             return View(result);
         }

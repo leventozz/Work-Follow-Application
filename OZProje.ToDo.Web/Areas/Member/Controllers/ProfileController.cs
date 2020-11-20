@@ -10,29 +10,27 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.DTO.DTOs.AppUserDTOs;
 using OZProje.ToDo.Entities.Concrete;
-using OZProje.ToDo.Web.Areas.Admin.Models;
+using OZProje.ToDo.Web.BaseControllers;
 
 namespace OZProje.ToDo.Web.Areas.Member.Controllers
 {
     [Area("Member")]
     [Authorize(Roles = "Member")]
-    public class ProfileController : Controller
+    public class ProfileController : BaseIdentityController
     {
-        private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
-        public ProfileController(UserManager<AppUser> userManager, IMapper mapper)
+        public ProfileController(UserManager<AppUser> userManager, IMapper mapper) : base(userManager)
         {
-            _userManager = userManager;
             _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
             TempData["Active"] = "profile";
-            var result = _mapper.Map<AppUserListDto>(await _userManager.FindByNameAsync(User.Identity.Name));
+            var result = _mapper.Map<AppUserListDto>(await GetLoginedUser());
             return View(result);
         }
         [HttpPost]
-        public async Task<IActionResult> Index(AppUserListViewModel model, IFormFile namePicture) 
+        public async Task<IActionResult> Index(AppUserListDto model, IFormFile namePicture) 
         {
             if (ModelState.IsValid)
             {
@@ -59,11 +57,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
                     return RedirectToAction("Index");
                 }
 
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, item.Description);
-                }
-                    
+                AddError(result.Errors);
             }
             return View(model);
         }

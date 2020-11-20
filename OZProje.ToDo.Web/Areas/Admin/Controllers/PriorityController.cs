@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.PriorityDTOs;
 using OZProje.ToDo.Entities.Concrete;
-using OZProje.ToDo.Web.Areas.Admin.Models;
 
 namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 {

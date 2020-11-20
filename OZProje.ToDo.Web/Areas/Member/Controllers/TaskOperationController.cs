@@ -10,24 +10,22 @@ using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.ReportDTOs;
 using OZProje.ToDo.DTO.DTOs.TaskDTOs;
 using OZProje.ToDo.Entities.Concrete;
-using OZProje.ToDo.Web.Areas.Admin.Models;
+using OZProje.ToDo.Web.BaseControllers;
 
 namespace OZProje.ToDo.Web.Areas.Member.Controllers
 {
     [Area("Member")]
     [Authorize(Roles = "Member")]
-    public class TaskOperationController : Controller
+    public class TaskOperationController : BaseIdentityController
     {
         private readonly IReportService _reportService;
-        private readonly UserManager<AppUser> _userManager;
         private readonly ITaskService _taskService;
         private readonly INotificationService _notificationService;
         private readonly IMapper _mapper;
-        public TaskOperationController(ITaskService taskService, UserManager<AppUser> userManager, IReportService reportService, INotificationService notificationService, IMapper mapper)
+        public TaskOperationController(ITaskService taskService, UserManager<AppUser> userManager, IReportService reportService, INotificationService notificationService, IMapper mapper) : base(userManager)
         {
             _reportService = reportService;
             _taskService = taskService;
-            _userManager = userManager;
             _notificationService = notificationService;
             _mapper = mapper;
         }
@@ -35,7 +33,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
         {
             TempData["Active"] = "taskoperation";
 
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await GetLoginedUser();
             var result = _mapper.Map<List<TaskListAllDto>>(_taskService.GetWithAllies(x => x.AppUserId == user.Id && !x.IsComplete));
             return View(result);
         }
@@ -43,9 +41,11 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
         {
             TempData["Active"] = "taskoperation";
             var task = _taskService.GetByPriorityId(id);
-            ReportAddDto model = new ReportAddDto();
-            model.TaskId = id;
-            model.Task = task;
+            ReportAddDto model = new ReportAddDto
+            {
+                TaskId = id,
+                Task = task
+            };
             return View(model);
         }
 
@@ -62,7 +62,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
                 });
 
                 var adminList = await _userManager.GetUsersInRoleAsync("Admin");
-                var activeUser = await _userManager.FindByNameAsync(User.Identity.Name);
+                var activeUser = await GetLoginedUser();
 
                 foreach (var admin in adminList)
                 {
@@ -106,7 +106,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
             _taskService.Update(currentTask);
 
             var adminList = await _userManager.GetUsersInRoleAsync("Admin");
-            var activeUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            var activeUser = await GetLoginedUser();
 
             foreach (var admin in adminList)
             {
@@ -116,7 +116,6 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
                     AppUserId = admin.Id
                 });
             }
-
             return Json(null);
         }
     }

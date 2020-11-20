@@ -11,7 +11,6 @@ using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.AppUserDTOs;
 using OZProje.ToDo.DTO.DTOs.TaskDTOs;
 using OZProje.ToDo.Entities.Concrete;
-using OZProje.ToDo.Web.Areas.Admin.Models;
 
 namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 {
@@ -47,8 +46,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
             TempData["Active"] = "taskOperation";
             ViewBag.ActivePage = page;
 
-            int totalPage;
-            var users = _mapper.Map<List<AppUserListDto>>(_appUserService.GetMembers(out totalPage, searchKey, page));
+            var users = _mapper.Map<List<AppUserListDto>>(_appUserService.GetMembers(out int totalPage, searchKey, page));
 
             ViewBag.TotalPage = totalPage;
             ViewBag.Search = searchKey;
@@ -65,9 +63,11 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
             var userResult = _mapper.Map<AppUserListDto>(_userManager.Users.FirstOrDefault(x => x.Id == model.AppUserId));
             var taskResult = _mapper.Map<TaskListDto>(_taskService.GetByPriorityId(model.TaskId));
 
-            UserAssignListDto userAssignModel = new UserAssignListDto();
-            userAssignModel.AppUser = userResult;
-            userAssignModel.Task = taskResult;
+            UserAssignListDto userAssignModel = new UserAssignListDto
+            {
+                AppUser = userResult,
+                Task = taskResult
+            };
 
             return View(userAssignModel);
         }

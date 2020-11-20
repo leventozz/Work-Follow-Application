@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.TaskDTOs;
 using OZProje.ToDo.Entities.Concrete;
-using OZProje.ToDo.Web.Areas.Admin.Models;
 
 namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 {

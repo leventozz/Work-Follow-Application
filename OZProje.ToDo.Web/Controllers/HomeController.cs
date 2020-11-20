@@ -8,22 +8,16 @@ using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.AppUserDTOs;
 using OZProje.ToDo.Entities.Concrete;
-using OZProje.ToDo.Web.Models;
+using OZProje.ToDo.Web.BaseControllers;
 
 namespace OZProje.ToDo.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseIdentityController
     {
-        private readonly ITaskService _taskService;
-        private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly IMapper _mapper;
-        public HomeController(ITaskService taskService, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMapper mapper)
+        public HomeController( UserManager<AppUser> userManager, SignInManager<AppUser> signInManager) : base(userManager)
         {
-            _taskService = taskService;
-            _userManager = userManager;
             _signInManager = signInManager;
-            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -58,15 +52,9 @@ namespace OZProje.ToDo.Web.Controllers
                     if (roleResult.Succeeded)
                         return RedirectToAction("Index");
 
-                    foreach (var item in roleResult.Errors)
-                    {
-                        ModelState.AddModelError("", item.Description);
-                    }
+                    AddError(result.Errors);
                 }
-                foreach (var item in result.Errors)
-                {
-                    ModelState.AddModelError("", item.Description);
-                }
+                AddError(result.Errors);
             }
             return View();
         }
@@ -75,7 +63,7 @@ namespace OZProje.ToDo.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.UserName);
+                var user = await GetLoginedUser();
                 if (user != null)
                 {
                     var result = await _signInManager.PasswordSignInAsync(model.UserName,model.Password,model.RememberMe,false);
