@@ -63,7 +63,7 @@ namespace OZProje.ToDo.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await GetLoginedUser();
+                var user = await _userManager.FindByNameAsync(model.UserName);
                 if (user != null)
                 {
                     var result = await _signInManager.PasswordSignInAsync(model.UserName,model.Password,model.RememberMe,false);
@@ -89,6 +89,16 @@ namespace OZProje.ToDo.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index");
+        }
+
+        public IActionResult StatusCode(int? code)
+        {
+            if (code == 404)
+            {
+                ViewBag.Code = code;
+                ViewBag.Message = "Sayfa Bulunamadı";
+            }
+            return View();
         }
     }
 }
