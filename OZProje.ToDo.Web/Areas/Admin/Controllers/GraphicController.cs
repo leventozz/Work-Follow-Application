@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OZProje.ToDo.Business.Interfaces;
+using OZProje.ToDo.Web.StringInfo;
 
 namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Area(AreaInfo.Admin)]
+    [Authorize(Roles = RoleInfo.Admin)]
     public class GraphicController : Controller
     {
         private readonly IAppUserService _appUserService;
@@ -16,7 +17,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            TempData["Active"] = "graphics";
+            TempData["Active"] = TempdataInfo.Graphics;
             return View();
         }
         public IActionResult GetTopTaskCompletionPersonnels()

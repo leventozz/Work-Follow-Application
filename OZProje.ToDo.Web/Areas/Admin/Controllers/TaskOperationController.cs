@@ -11,11 +11,12 @@ using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.AppUserDTOs;
 using OZProje.ToDo.DTO.DTOs.TaskDTOs;
 using OZProje.ToDo.Entities.Concrete;
+using OZProje.ToDo.Web.StringInfo;
 
 namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Roles ="Admin")]
+    [Area(AreaInfo.Admin)]
+    [Authorize(Roles = RoleInfo.Admin)]
     public class TaskOperationController : Controller
     {
         private readonly IAppUserService _appUserService;
@@ -36,14 +37,14 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
         
         public IActionResult Index()
         {
-            TempData["Active"] = "taskOperation";
+            TempData["Active"] = TempdataInfo.TaskOperation;
             var result = _mapper.Map<List<TaskListAllDto>>(_taskService.GetWithAllies());
             return View(result);
         }
 
         public IActionResult AssignUserList(int id, string searchKey, int page=1)
         {
-            TempData["Active"] = "taskOperation";
+            TempData["Active"] = TempdataInfo.TaskOperation;
             ViewBag.ActivePage = page;
 
             var users = _mapper.Map<List<AppUserListDto>>(_appUserService.GetMembers(out int totalPage, searchKey, page));
@@ -58,7 +59,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult AssignUser(UserAssignDto model)
         {
-            TempData["Active"] = "taskOperation";
+            TempData["Active"] = TempdataInfo.TaskOperation;
 
             var userResult = _mapper.Map<AppUserListDto>(_userManager.Users.FirstOrDefault(x => x.Id == model.AppUserId));
             var taskResult = _mapper.Map<TaskListDto>(_taskService.GetByPriorityId(model.TaskId));
@@ -88,7 +89,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult ViewDetail(int id)
         {
-            TempData["Active"] = "taskOperation";
+            TempData["Active"] = TempdataInfo.TaskOperation;
             var result = _mapper.Map<TaskListAllDto>(_taskService.GetReportsById(id));
             return View(result);
         }

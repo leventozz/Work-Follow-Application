@@ -8,11 +8,12 @@ using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.NotificationDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.BaseControllers;
+using OZProje.ToDo.Web.StringInfo;
 
 namespace OZProje.ToDo.Web.Areas.Member.Controllers
 {
-    [Area("Member")]
-    [Authorize(Roles = "Member")]
+    [Area(AreaInfo.Member)]
+    [Authorize(Roles = RoleInfo.Member)]
     public class NotificationController : BaseIdentityController
     {
         private readonly INotificationService _notificationService;
@@ -24,7 +25,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            TempData["active"] = "notifications";
+            TempData["active"] = TempdataInfo.Notifications;
             var currentUser = await GetLoginedUser();
             var result = _mapper.Map<List<NotificationListDto>>(_notificationService.GetUnread(currentUser.Id));
             return View(result);

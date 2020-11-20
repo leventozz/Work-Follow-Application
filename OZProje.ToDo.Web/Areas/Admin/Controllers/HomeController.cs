@@ -8,11 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.BaseControllers;
+using OZProje.ToDo.Web.StringInfo;
 
 namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Area(AreaInfo.Admin)]
+    [Authorize(Roles = RoleInfo.Admin)]
     public class HomeController : BaseIdentityController
     {
         private readonly ITaskService _taskService;
@@ -26,7 +27,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            TempData["Active"] = "home";
+            TempData["Active"] = TempdataInfo.Home;
             var currentUser = await GetLoginedUser();
             ViewBag.NotAssignedTaskCount = _taskService.GetNotAssignedTaskCount();
             ViewBag.AllCompletedTaskCount = _taskService.GetAllCompletedTaskCount();

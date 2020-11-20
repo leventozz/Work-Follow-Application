@@ -6,13 +6,14 @@ using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.TaskDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.BaseControllers;
+using OZProje.ToDo.Web.StringInfo;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OZProje.ToDo.Web.Areas.Member.Controllers
 {
-    [Authorize(Roles ="Member")]
-    [Area("Member")]
+    [Area(AreaInfo.Member)]
+    [Authorize(Roles =RoleInfo.Member)]
     public class CompletedTasksController : BaseIdentityController
     {
         private readonly ITaskService _taskService;
@@ -24,7 +25,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
         }
         public async Task<IActionResult> Index(int activeIndex=1)
         {
-            TempData["Active"] = "completedTasks";
+            TempData["Active"] = TempdataInfo.CompletedTasks;
 
             var user = await GetLoginedUser();
             var result = _mapper.Map<List<TaskListAllDto>>(_taskService.GetCompletedWithAllies(out int totalIndex, user.Id, activeIndex));

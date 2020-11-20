@@ -9,11 +9,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.TaskDTOs;
 using OZProje.ToDo.Entities.Concrete;
+using OZProje.ToDo.Web.StringInfo;
 
 namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Area(AreaInfo.Admin)]
+    [Authorize(Roles = RoleInfo.Admin)]
     public class TaskController : Controller
     {
         private readonly ITaskService _taskService;
@@ -27,13 +28,13 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            TempData["Active"] = "task";
+            TempData["Active"] = TempdataInfo.Task;
             var result =_mapper.Map<List<TaskListDto>>(_taskService.GetIsNotCompleted());
             return View(result);
         }
         public IActionResult AddTask()
         {
-            TempData["Active"] = "task";
+            TempData["Active"] = TempdataInfo.Task;
             ViewBag.PriorityList = new SelectList(_priorityService.GetAll(),"Id", "Definition");
             return View(new TaskAddDto());
         }
@@ -54,7 +55,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
         }
         public IActionResult UpdateTask(int id)
         {
-            TempData["Active"] = "task";
+            TempData["Active"] = TempdataInfo.Task;
             var result = _mapper.Map<TaskUpdateDto>(_taskService.GetById(id));
             ViewBag.PriorityList = new SelectList(_priorityService.GetAll(), "Id", "Definition", result.PriorityId);
             return View(result);

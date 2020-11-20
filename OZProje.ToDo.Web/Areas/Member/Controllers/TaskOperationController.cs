@@ -11,11 +11,12 @@ using OZProje.ToDo.DTO.DTOs.ReportDTOs;
 using OZProje.ToDo.DTO.DTOs.TaskDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.BaseControllers;
+using OZProje.ToDo.Web.StringInfo;
 
 namespace OZProje.ToDo.Web.Areas.Member.Controllers
 {
-    [Area("Member")]
-    [Authorize(Roles = "Member")]
+    [Area(AreaInfo.Member)]
+    [Authorize(Roles = RoleInfo.Member)]
     public class TaskOperationController : BaseIdentityController
     {
         private readonly IReportService _reportService;
@@ -31,7 +32,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            TempData["Active"] = "taskoperation";
+            TempData["Active"] = TempdataInfo.TaskOperation;
 
             var user = await GetLoginedUser();
             var result = _mapper.Map<List<TaskListAllDto>>(_taskService.GetWithAllies(x => x.AppUserId == user.Id && !x.IsComplete));
@@ -39,7 +40,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
         }
         public IActionResult AddReport(int id)
         {
-            TempData["Active"] = "taskoperation";
+            TempData["Active"] = TempdataInfo.TaskOperation;
             var task = _taskService.GetByPriorityId(id);
             ReportAddDto model = new ReportAddDto
             {
@@ -80,7 +81,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
 
         public IActionResult UpdateReport(int id)
         {
-            TempData["Active"] = "taskoperation";
+            TempData["Active"] = TempdataInfo.TaskOperation;
             var result = _mapper.Map<ReportUpdateDto>(_reportService.GetWithAllies(id));
             return View(result);
         }

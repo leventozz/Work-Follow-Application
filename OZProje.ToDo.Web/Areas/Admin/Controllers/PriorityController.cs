@@ -8,11 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.PriorityDTOs;
 using OZProje.ToDo.Entities.Concrete;
+using OZProje.ToDo.Web.StringInfo;
 
 namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    [Area(AreaInfo.Admin)]
+    [Authorize(Roles = RoleInfo.Admin)]
     public class PriorityController : Controller
     {
         private readonly IPriorityService _priorityService;
@@ -25,7 +26,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            TempData["Active"] = "priority";
+            TempData["Active"] = TempdataInfo.Priority;
             return View(_mapper.Map<List<PriorityListDto>>(_priorityService.GetAll()));
         }
 
@@ -50,7 +51,7 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult UpdatePriority(int id)
         {
-            TempData["Active"] = "priority";
+            TempData["Active"] = TempdataInfo.Priority;
             return View(_mapper.Map<PriorityUpdateDto>(_priorityService.GetById(id)));
         }
 

@@ -11,11 +11,12 @@ using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.DTO.DTOs.AppUserDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.BaseControllers;
+using OZProje.ToDo.Web.StringInfo;
 
 namespace OZProje.ToDo.Web.Areas.Member.Controllers
 {
-    [Area("Member")]
-    [Authorize(Roles = "Member")]
+    [Area(AreaInfo.Member)]
+    [Authorize(Roles = RoleInfo.Member)]
     public class ProfileController : BaseIdentityController
     {
         private readonly IMapper _mapper;
@@ -25,7 +26,7 @@ namespace OZProje.ToDo.Web.Areas.Member.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            TempData["Active"] = "profile";
+            TempData["Active"] = TempdataInfo.Profile;
             var result = _mapper.Map<AppUserListDto>(await GetLoginedUser());
             return View(result);
         }
