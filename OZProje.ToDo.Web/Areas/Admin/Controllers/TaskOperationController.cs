@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OZProje.ToDo.Business.Interfaces;
 using OZProje.ToDo.DTO.DTOs.AppUserDTOs;
+using OZProje.ToDo.DTO.DTOs.ReportDTOs;
 using OZProje.ToDo.DTO.DTOs.TaskDTOs;
 using OZProje.ToDo.Entities.Concrete;
 using OZProje.ToDo.Web.StringInfo;
@@ -96,12 +97,12 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
 
         public IActionResult ExcelExport(int id)
         {
-            return File((_fileService.ExcelExport(_taskService.GetReportsById(id).Reports)), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",Guid.NewGuid()+".xlsx");
+            return File((_fileService.ExcelExport(_mapper.Map<List<ReportFileManagerDto>>(_taskService.GetReportsById(id).Reports))), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",Guid.NewGuid()+".xlsx");
         }
 
         public IActionResult PDFExport(int id)
         {
-            var path = _fileService.PdfExport(_taskService.GetReportsById(id).Reports);
+            var path = _fileService.PdfExport(_mapper.Map<List<ReportFileManagerDto>>(_taskService.GetReportsById(id).Reports));
             return File(path, "applicaiton/pdf", Guid.NewGuid() + ".pdf");
         }
     }

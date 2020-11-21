@@ -51,6 +51,8 @@ namespace OZProje.ToDo.Web.Areas.Admin.Controllers
                 });
                 return RedirectToAction("Index");
             }
+            ViewBag.PriorityList = new SelectList(_priorityService.GetAll(), "Id", "Definition");
+            TempData["Active"] = TempdataInfo.Task;
             return View(model);
         }
         public IActionResult UpdateTask(int id)

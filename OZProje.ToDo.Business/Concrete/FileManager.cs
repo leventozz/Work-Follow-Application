@@ -32,6 +32,10 @@ namespace OZProje.ToDo.Business.Concrete
 
             var stream = new FileStream(path, FileMode.Create);
 
+            string arialTTf = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arial.ttf");
+            BaseFont bf = BaseFont.CreateFont(arialTTf, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            Font font = new Font(bf, 12, Font.NORMAL);
+
             Document document = new Document(PageSize.A4, 25f, 25f, 25f, 25f);
             PdfWriter.GetInstance(document, stream);
             document.Open();
@@ -40,14 +44,14 @@ namespace OZProje.ToDo.Business.Concrete
 
             for (int i = 0; i < dataTable.Columns.Count; i++)
             {
-                pdfPTable.AddCell(dataTable.Columns[i].ColumnName);
+                pdfPTable.AddCell(new Phrase(dataTable.Columns[i].ColumnName,font));
             }
 
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
                 for (int j = 0; j < dataTable.Columns.Count; j++)
                 {
-                    pdfPTable.AddCell(dataTable.Rows[i][j].ToString());
+                    pdfPTable.AddCell(new Phrase(dataTable.Rows[i][j].ToString(),font));
                 }
             }
             document.Add(pdfPTable);
